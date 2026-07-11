@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[6522,["974","static/chunks/app/page-28cb603967d7403d.js"],"default"]
+3:I[8851,[],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"ProfessionalService\",\"name\":\"tim kirstein automatisierungen\",\"founder\":{\"@type\":\"Person\",\"name\":\"Tim Kirstein\"},\"description\":\"Individuelle Automatisierungslösungen für wiederkehrende Geschäftsabläufe in kleinen und mittleren Betrieben.\",\"areaServed\":\"DE\",\"serviceType\":[\"Geschäftsprozessautomatisierung\",\"Workflow Automatisierung\",\"Systemintegration\"]}"}}],["$","$L2",null,{}]],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"17DcAYja4XzMcundpoWwc"}
+5:null
