@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Die eigentliche Spiellogik ist UI-frei und plattformunabhaengig. Sie laeuft
+  # deshalb auf einem Linux-Container - schnell, guenstig und ohne Apple-Hardware.
+  # Das ist kein Nebeneffekt der Architektur, sondern ihr Zweck.
+  logic:
+    name: Spiellogik (Linux)
+    runs-on: ubuntu-latest
+    container: swift:6.1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bauen
+        working-directory: Modules/GameLogic
+        run: swift build --build-tests
+
+      - name: Testen
+        working-directory: Modules/GameLogic
+        run: swift test
+
+      - name: Content pruefen
+        working-directory: Modules/GameLogic
+        run: swift run ContentValidator "$GITHUB_WORKSPACE/Content"
+
+  # SwiftUI-Module bauen nur auf einer Apple-Plattform. Ein Xcode-Projekt
+  # braucht es dafuer nicht - das Paket genuegt.
+  presentation:
+    name: Darstellung (macOS)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bauen
+        working-directory: Modules/Presentation
+        run: swift build
+
+  # Erst dieser Schritt braucht Xcode: er baut das ausliefbare App-Ziel fuer iOS.
+  app:
+    name: App (iOS)
+    runs-on: macos-15
+    needs: [logic, presentation]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: XcodeGen installieren
+        run: brew install xcodegen
+
+      - name: Xcode-Projekt erzeugen
+        working-directory: App
+        run: xcodegen generate
+
+      - name: Bauen
+        working-directory: App
+        run: |
+          xcodebuild build \
+            -project App.xcodeproj \
+            -scheme App \
+            -configuration Debug \
+            -destination 'generic/platform=iOS' \
+            CODE_SIGNING_ALLOWED=NO

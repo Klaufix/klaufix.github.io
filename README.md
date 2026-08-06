@@ -11,8 +11,8 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 |---|---|---|
 | [Game Design Dokument](docs/01-game-design-document.md) | Phase 1 | ✅ Entwurf v0.1 |
 | [Technische Architektur](docs/02-technische-architektur.md) | Phase 2 | ✅ Entwurf v0.1 |
-| Projektstruktur | Phase 3 | ⏳ als Nächstes |
-| Datenmodelle | Phase 4 | – |
+| [Projektstruktur](docs/03-projektstruktur.md) | Phase 3 | ✅ v0.1 |
+| Datenmodelle | Phase 4 | ⏳ als Nächstes |
 | UI-Konzept | Phase 5 | – |
 
 ## Meilensteinplan
@@ -41,6 +41,25 @@ Nach jeder Phase: prüfen · testen · dokumentieren · Verbesserungsvorschläge
 | Cloud | Schnittstelle vorbereitet, Backend-Entscheidung in Phase 9 |
 | Wetter | simuliertes Spielwetter (deterministisch, ohne Standortzugriff) |
 | Grafik | programmatische Vektor-Darstellung, Assets später austauschbar |
+
+## Aufbau
+
+```
+App/          dünnes iOS-App-Ziel (Xcode-Projekt wird aus project.yml generiert)
+Modules/
+  GameLogic/    Swift Package · plattformunabhängig, UI-frei, unter Linux testbar
+  Presentation/ Swift Package · SwiftUI
+Content/      Spielinhalte als JSON
+docs/         Phasendokumente
+```
+
+### Bauen
+
+```sh
+cd Modules/GameLogic && swift build && swift test     # Spiellogik, überall
+cd Modules/Presentation && swift build                # UI, nur Apple-Plattformen
+brew install xcodegen && cd App && xcodegen generate  # Xcode-Projekt erzeugen
+```
 
 ## Leitprinzipien
 

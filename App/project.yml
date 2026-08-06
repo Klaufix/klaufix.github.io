@@ -1,0 +1,43 @@
+# XcodeGen-Spezifikation.
+#
+# Das Xcode-Projekt wird generiert statt eingecheckt: eine .pbxproj-Datei ist
+# weder lesbar noch sinnvoll zusammenfuehrbar, und sie waere die einzige Stelle
+# im Projekt, an der Struktur nicht als Text vorliegt.
+#
+#   brew install xcodegen
+#   cd App && xcodegen generate && open App.xcodeproj
+
+name: App
+
+options:
+  bundleIdPrefix: com.example.virtualpet
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "18.0"
+
+packages:
+  Presentation:
+    path: ../Modules/Presentation
+
+targets:
+  App:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+    dependencies:
+      - package: Presentation
+        product: AppComposition
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.virtualpet
+        PRODUCT_NAME: VirtualPet
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "6.0"
+        GENERATE_INFOPLIST_FILE: true
+        # iPhone und iPad - das Layout ist von Anfang an adaptiv.
+        TARGETED_DEVICE_FAMILY: "1,2"
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
+        INFOPLIST_KEY_CFBundleDisplayName: VirtualPet
