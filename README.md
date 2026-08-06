@@ -10,8 +10,8 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 | Dokument | Phase | Status |
 |---|---|---|
 | [Game Design Dokument](docs/01-game-design-document.md) | Phase 1 | ✅ Entwurf v0.1 |
-| Technische Architektur | Phase 2 | ⏳ wartet auf Entscheidungen (GDD §16) |
-| Projektstruktur | Phase 3 | – |
+| [Technische Architektur](docs/02-technische-architektur.md) | Phase 2 | ✅ Entwurf v0.1 |
+| Projektstruktur | Phase 3 | ⏳ als Nächstes |
 | Datenmodelle | Phase 4 | – |
 | UI-Konzept | Phase 5 | – |
 
@@ -31,6 +31,16 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 | 10 | Polishing | Balancing, Performance, Feinschliff |
 
 Nach jeder Phase: prüfen · testen · dokumentieren · Verbesserungsvorschläge.
+
+## Festgelegte Rahmenentscheidungen
+
+| Thema | Entscheidung |
+|---|---|
+| Plattform | iOS 18+, SwiftUI, Swift 6 |
+| Persistenz | Snapshot + Event-Journal (lokal, atomar, versioniert) |
+| Cloud | Schnittstelle vorbereitet, Backend-Entscheidung in Phase 9 |
+| Wetter | simuliertes Spielwetter (deterministisch, ohne Standortzugriff) |
+| Grafik | programmatische Vektor-Darstellung, Assets später austauschbar |
 
 ## Leitprinzipien
 

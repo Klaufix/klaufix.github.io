@@ -427,15 +427,19 @@ dasselbe erreichen, nur mit anderem Aussehen?"* — Wenn nein: nicht ins Spiel.
 
 ---
 
-## 16. Offene Design-Entscheidungen (Input erforderlich)
+## 16. Getroffene Design-Entscheidungen
 
-1. **Wetterquelle:** echtes lokales Wetter (WeatherKit, benötigt Standort + Apple Developer
-   Program) vs. rein simuliertes Spielwetter vs. Hybrid.
-2. **Cloud-Backend:** CloudKit vs. Firebase — beeinflusst Phase 2 direkt.
-3. **Kunst-Pipeline für MVP:** programmatische Vektor-Platzhalter vs. externe Assets.
-4. **Mindest-iOS-Version:** bestimmt verfügbare APIs (SwiftData, Observation, WeatherKit).
+| Frage | Entscheidung | Folge für das Design |
+|---|---|---|
+| Wetterquelle | **simuliertes Spielwetter** | Wetter ist planbarer Content statt Zufall der Realität: Events können verlässlich auf „Schnee" oder „Nebel" bauen, Evolutionsbedingungen sind für jeden Spieler erreichbar, und es braucht keine Standortfreigabe |
+| Cloud-Backend | **zunächst lokal**, Entscheidung in Phase 9 | Spielstandsicherheit muss bis dahin vollständig lokal gewährleistet sein (Snapshots, Backups) |
+| Kunst-Pipeline MVP | **programmatische Vektor-Darstellung** | Kreaturen-Aussehen ist ein Datensatz aus Körperform, Teilen und Farbpalette — Varianten und Saisonformen kosten dadurch fast nichts |
+| Mindest-iOS | **iOS 18+** | moderne SwiftUI-APIs, Swift 6 |
 
-→ Diese vier Punkte gehen vor Phase 2 an den Auftraggeber.
+> Der Verzicht auf Echtwetter kostet den „draußen regnet es auch"-Moment. Falls das
+> später doch gewünscht ist, bleibt der Weg offen (siehe ADR-003 in der Architektur):
+> `ClimateSystem` bezieht seine Eingabe über ein Protokoll, ein Realwetter-Adapter wäre
+> nachrüstbar, ohne Spiellogik zu ändern.
 
 ---
 
