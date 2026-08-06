@@ -42,5 +42,34 @@ cd Modules/GameLogic
 swift run ContentValidator ../../Content
 ```
 
-Das vollständige Schema entsteht in **Phase 4** gemeinsam mit den Datenmodellen.
-Bis dahin prüft der Validator nur die Verzeichnisstruktur.
+Geprüft werden Referenzintegrität, Schema-Versionen, Wertebereiche und die Design-Zusagen
+aus dem GDD — etwa dass jeder Entwicklungsweg eine Verzweigung ohne Kämpfe hat.
+
+## Schema
+
+Das Schema steht in `Modules/GameLogic/Sources/GameContent/Definitions.swift`.
+Weglassbare Felder sind dort als `Optional` deklariert.
+
+**Art** (`species/`): `id`, `schemaVersion`, `nameKey`, `descriptionKey`, `element`,
+`rarity`, `growthStage`, `baseStats`, `appearance` sind Pflicht; `preferences`,
+`habitats`, `retired` sind optional.
+
+**Entwicklung** (`evolutions/`): `id`, `schemaVersion`, `from`, `branches`.
+Jede Verzweigung: `to`, `requires`, `hintKey`, optional `peaceful`.
+
+**Bedingungen** (`requires`) folgen dieser Form:
+
+```json
+{ "all": [
+    { "fact": "level", "op": ">=", "value": 16 },
+    { "fact": "personality", "parameter": "courage", "op": ">=", "value": 70 },
+    { "any": [
+        { "fact": "season", "op": "==", "value": "spring" },
+        { "fact": "weather", "op": "==", "value": "rain" }
+    ] }
+] }
+```
+
+Verknüpfungen: `all`, `any`, `not`, `always`.
+Vergleiche: `==`, `!=`, `>`, `>=`, `<`, `<=`, `contains`.
+Verfügbare `fact`-Werte stehen in `FactKey` (`GameCore/Conditions.swift`).

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+
+  "satiationDecayPerHour": 4.0,
+  "satiationDecayPerHourAsleep": 1.0,
+  "energyDecayPerHour": 3.0,
+  "moodDecayPerHour": 2.0,
+
+  "offlineFloor": 25.0,
+  "dampeningHalfLifeHours": 8.0,
+
+  "reunionAfterHours": 24.0,
+  "reunionFriendshipBonus": 3.0,
+
+  "shimmerChanceWild": 0.0025,
+  "shimmerChanceBred": 0.0067,
+  "shimmerPityThreshold": 200
+}

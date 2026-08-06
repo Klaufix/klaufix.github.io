@@ -1,0 +1,12 @@
+{
+  "id": "sun_berry",
+  "schemaVersion": 1,
+  "nameKey": "item.sun_berry.name",
+  "kind": "food",
+  "tags": ["sweet", "fruit"],
+  "stackSize": 99,
+  "effects": [
+    { "need": "satiation", "amount": 30 },
+    { "need": "mood", "amount": 5 }
+  ]
+}

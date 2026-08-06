@@ -45,6 +45,10 @@ public struct Identifier<Tag: Sendable>: Sendable, Hashable, Codable,
 
 public enum SpeciesTag: Sendable {}
 public enum CreatureTag: Sendable {}
+public enum ElementTag: Sendable {}
+public enum WeatherTag: Sendable {}
+public enum EvolutionTag: Sendable {}
+public enum DeviceTag: Sendable {}
 public enum ItemTag: Sendable {}
 public enum CosmeticTag: Sendable {}
 public enum AbilityTag: Sendable {}
@@ -60,6 +64,15 @@ public enum FeatureTag: Sendable {}
 
 public typealias SpeciesID = Identifier<SpeciesTag>
 public typealias CreatureID = Identifier<CreatureTag>
+
+/// Elemente und Wetterarten sind bewusst **keine** Aufzaehlungen im Code, sondern
+/// Content. Ein achtes Element oder eine sechste Wetterlage ist damit eine
+/// Datendatei - kein Eingriff in zwoelf Systeme.
+public typealias ElementID = Identifier<ElementTag>
+public typealias WeatherID = Identifier<WeatherTag>
+
+public typealias EvolutionID = Identifier<EvolutionTag>
+public typealias DeviceID = Identifier<DeviceTag>
 public typealias ItemID = Identifier<ItemTag>
 public typealias CosmeticID = Identifier<CosmeticTag>
 public typealias AbilityID = Identifier<AbilityTag>

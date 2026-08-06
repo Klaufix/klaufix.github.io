@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "elements": ["leaf", "wave", "ember", "stone", "wind", "shimmer", "night"],
+  "multipliers": [
+    { "attacker": "leaf", "defender": "wave", "value": 1.5 },
+    { "attacker": "wave", "defender": "ember", "value": 1.5 },
+    { "attacker": "ember", "defender": "leaf", "value": 1.5 },
+    { "attacker": "wave", "defender": "leaf", "value": 0.75 },
+    { "attacker": "ember", "defender": "wave", "value": 0.75 },
+    { "attacker": "leaf", "defender": "ember", "value": 0.75 },
+
+    { "attacker": "stone", "defender": "wind", "value": 1.5 },
+    { "attacker": "wind", "defender": "stone", "value": 1.5 },
+
+    { "attacker": "shimmer", "defender": "night", "value": 1.5 },
+    { "attacker": "night", "defender": "shimmer", "value": 1.5 }
+  ]
+}

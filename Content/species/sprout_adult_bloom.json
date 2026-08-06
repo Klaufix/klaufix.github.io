@@ -1,0 +1,30 @@
+{
+  "id": "sprout_adult_bloom",
+  "schemaVersion": 1,
+  "nameKey": "species.sprout_adult_bloom.name",
+  "descriptionKey": "species.sprout_adult_bloom.description",
+  "element": "leaf",
+  "rarity": "common",
+  "growthStage": "adult",
+  "baseStats": {
+    "vitality": 38,
+    "power": 20,
+    "resilience": 28,
+    "speed": 22
+  },
+  "preferences": {
+    "favoriteFoodTags": ["sweet", "flower"],
+    "favoriteWeather": ["sun", "rain"],
+    "sleepsFrom": 22,
+    "sleepsUntil": 7
+  },
+  "appearance": {
+    "silhouette": "round_sprout",
+    "parts": ["bloom_crown", "gentle_eyes", "small_mouth"],
+    "defaultPalette": "bloom_pink",
+    "variantPalettes": {
+      "shimmer": "bloom_gold"
+    }
+  },
+  "habitats": ["meadow", "grove"]
+}

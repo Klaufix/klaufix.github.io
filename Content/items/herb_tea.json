@@ -1,0 +1,12 @@
+{
+  "id": "herb_tea",
+  "schemaVersion": 1,
+  "nameKey": "item.herb_tea.name",
+  "kind": "medicine",
+  "tags": ["bitter", "warm"],
+  "stackSize": 20,
+  "effects": [
+    { "need": "health", "amount": 20 },
+    { "need": "tiredness", "amount": -10 }
+  ]
+}

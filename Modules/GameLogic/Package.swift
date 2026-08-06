@@ -47,6 +47,9 @@ targets += [
     .executableTarget(name: "ContentValidator", dependencies: ["GameContent"]),
 
     .testTarget(name: "GameCoreTests", dependencies: ["GameCore"]),
+    .testTarget(name: "GameContentTests", dependencies: ["GameContent"]),
+    .testTarget(name: "GameRulesTests", dependencies: ["GameRules"]),
+    .testTarget(name: "CreatureSystemTests", dependencies: ["CreatureSystem"]),
 ]
 
 let package = Package(

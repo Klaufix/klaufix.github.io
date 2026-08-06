@@ -12,8 +12,8 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 | [Game Design Dokument](docs/01-game-design-document.md) | Phase 1 | ✅ Entwurf v0.1 |
 | [Technische Architektur](docs/02-technische-architektur.md) | Phase 2 | ✅ Entwurf v0.1 |
 | [Projektstruktur](docs/03-projektstruktur.md) | Phase 3 | ✅ v0.1 |
-| Datenmodelle | Phase 4 | ⏳ als Nächstes |
-| UI-Konzept | Phase 5 | – |
+| [Datenmodelle](docs/04-datenmodelle.md) | Phase 4 | ✅ v0.1 |
+| UI-Konzept | Phase 5 | ⏳ als Nächstes |
 
 ## Meilensteinplan
 

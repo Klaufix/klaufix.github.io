@@ -1,0 +1,36 @@
+{
+  "id": "evo_sprout_youngling",
+  "schemaVersion": 1,
+  "from": "sprout_youngling",
+  "branches": [
+    {
+      "to": "sprout_adult_thorn",
+      "hintKey": "evolution.hint.thorn",
+      "peaceful": false,
+      "requires": {
+        "all": [
+          { "fact": "level", "op": ">=", "value": 16 },
+          { "fact": "personality", "parameter": "courage", "op": ">=", "value": 70 },
+          { "fact": "battlesWon", "op": ">=", "value": 15 }
+        ]
+      }
+    },
+    {
+      "to": "sprout_adult_bloom",
+      "hintKey": "evolution.hint.bloom",
+      "peaceful": true,
+      "requires": {
+        "all": [
+          { "fact": "level", "op": ">=", "value": 16 },
+          { "fact": "friendship", "op": ">=", "value": 60 },
+          {
+            "any": [
+              { "fact": "season", "op": "==", "value": "spring" },
+              { "fact": "weather", "op": "==", "value": "rain" }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

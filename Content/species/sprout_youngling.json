@@ -1,0 +1,32 @@
+{
+  "id": "sprout_youngling",
+  "schemaVersion": 1,
+  "nameKey": "species.sprout_youngling.name",
+  "descriptionKey": "species.sprout_youngling.description",
+  "element": "leaf",
+  "rarity": "common",
+  "growthStage": "youngling",
+  "baseStats": {
+    "vitality": 24,
+    "power": 12,
+    "resilience": 16,
+    "speed": 14
+  },
+  "preferences": {
+    "favoriteFoodTags": ["sweet", "fruit"],
+    "dislikedFoodTags": ["bitter"],
+    "favoriteWeather": ["rain"],
+    "sleepsFrom": 21,
+    "sleepsUntil": 6
+  },
+  "appearance": {
+    "silhouette": "round_sprout",
+    "parts": ["leaf_crest", "wide_eyes", "small_mouth"],
+    "defaultPalette": "sprout_green",
+    "variantPalettes": {
+      "shimmer": "sprout_gold",
+      "seasonal": "sprout_frost"
+    }
+  },
+  "habitats": ["meadow", "grove"]
+}

@@ -1,57 +1,60 @@
 //  ContentValidator
 //
-//  Prueft das Content-Verzeichnis, bevor Inhalte im Spiel landen: Schema,
-//  Referenzintegritaet (zeigt jede ID auf etwas, das es gibt?) und
-//  Balancing-Plausibilitaet. Laeuft in der CI - ein Tippfehler in einer
-//  Content-Datei bricht damit den Build, nicht das Spiel.
+//  Laedt das Content-Verzeichnis und prueft es: Referenzintegritaet,
+//  Schema-Versionen, Wertebereiche und die pruefbaren Design-Zusagen aus dem
+//  GDD. Laeuft in der CI - ein Tippfehler in einer Content-Datei bricht damit
+//  den Build und nicht das Spiel.
 //
-//  Die eigentliche Pruefung entsteht in Phase 4 zusammen mit dem Schema.
-//  Bis dahin stellt dieses Werkzeug nur sicher, dass die Verzeichnisstruktur
-//  vorhanden und die Pipeline verdrahtet ist.
+//  Aufruf: swift run ContentValidator <Pfad zum Content-Verzeichnis>
 
 import Foundation
+import GameContent
 
 let arguments = CommandLine.arguments
-let contentPath = arguments.count > 1 ? arguments[1] : "Content"
+let path = arguments.count > 1 ? arguments[1] : "Content"
+let root = URL(fileURLWithPath: path, isDirectory: true)
 
-let expectedDirectories = [
-    "species",
-    "evolutions",
-    "items",
-    "cosmetics",
-    "quests",
-    "dungeons",
-    "story",
-    "climate",
-    "balancing",
-]
-
-var problems: [String] = []
+func fail(_ message: String) -> Never {
+    FileHandle.standardError.write(Data((message + "\n").utf8))
+    exit(1)
+}
 
 var isDirectory: ObjCBool = false
-guard FileManager.default.fileExists(atPath: contentPath, isDirectory: &isDirectory),
+guard FileManager.default.fileExists(atPath: root.path, isDirectory: &isDirectory),
       isDirectory.boolValue
 else {
-    FileHandle.standardError.write(
-        Data("Content-Verzeichnis nicht gefunden: \(contentPath)\n".utf8)
-    )
-    exit(1)
+    fail("Content-Verzeichnis nicht gefunden: \(root.path)")
 }
 
-for directory in expectedDirectories {
-    let path = "\(contentPath)/\(directory)"
-    if !FileManager.default.fileExists(atPath: path) {
-        problems.append("fehlendes Verzeichnis: \(directory)")
-    }
+let bundle: ContentBundle
+do {
+    bundle = try ContentLoader().load(from: [root])
+} catch {
+    fail("Laden fehlgeschlagen - \(error)")
 }
 
-if problems.isEmpty {
-    print("Content-Struktur in Ordnung (\(expectedDirectories.count) Verzeichnisse).")
-    print("Schema-Pruefung folgt in Phase 4.")
+let issues = ContentValidation.validate(bundle)
+let errors = issues.filter { $0.severity == .error }
+let warnings = issues.filter { $0.severity == .warning }
+
+print(
+    """
+    Geladen: \(bundle.species.count) Arten, \(bundle.evolutions.count) Entwicklungen, \
+    \(bundle.items.count) Items, \(bundle.cosmetics.count) Kleidungsstuecke.
+    """
+)
+
+for issue in warnings {
+    print(issue.description)
+}
+
+for issue in errors {
+    FileHandle.standardError.write(Data((issue.description + "\n").utf8))
+}
+
+if errors.isEmpty {
+    print("Content in Ordnung (\(warnings.count) Hinweise).")
     exit(0)
 } else {
-    for problem in problems {
-        FileHandle.standardError.write(Data("\(problem)\n".utf8))
-    }
-    exit(1)
+    fail("\(errors.count) Fehler im Content.")
 }
