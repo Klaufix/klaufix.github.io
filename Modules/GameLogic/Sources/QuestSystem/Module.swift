@@ -1,7 +1,8 @@
 //  QuestSystem
 //
 //  Verantwortung
-//  Quest-Definitionen, Fortschritt, Wochen-Puffer, Belohnungen. Ziele werden ueber GameRules ausgewertet.
+//  Quest-Definitionen, Fortschritt, Wochen-Puffer, Belohnungen. Ziele werden ueber
+//  GameRules ausgewertet.
 //
 //  Abhaengigkeiten
 //  Darf importieren: GameCore, GameContent, GameRules

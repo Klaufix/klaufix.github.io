@@ -1,7 +1,8 @@
 //  DesignSystem
 //
 //  Verantwortung
-//  Farben, Typografie, Abstaende, wiederverwendbare Komponenten, Light- und Dark-Mode, Dynamic Type.
+//  Farben, Typografie, Abstaende, wiederverwendbare Komponenten, Light- und Dark-Mode,
+//  Dynamic Type.
 //
 //  Abhaengigkeiten
 //  Darf importieren: nichts (nur SwiftUI)

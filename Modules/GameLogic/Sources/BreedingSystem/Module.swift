@@ -1,7 +1,8 @@
 //  BreedingSystem
 //
 //  Verantwortung
-//  Paarung, Ei-Reifung, Vererbung von Persoenlichkeit und Anlagen, Varianten-Chance, Pity-Zaehler.
+//  Paarung, Ei-Reifung, Vererbung von Persoenlichkeit und Anlagen, Varianten-Chance,
+//  Pity-Zaehler.
 //
 //  Abhaengigkeiten
 //  Darf importieren: GameCore, GameContent, GameRules

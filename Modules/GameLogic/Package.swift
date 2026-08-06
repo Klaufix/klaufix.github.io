@@ -46,10 +46,16 @@ targets += [
     // Werkzeug: prueft das Content-Bundle in der CI, bevor Inhalte im Spiel landen.
     .executableTarget(name: "ContentValidator", dependencies: ["GameContent"]),
 
+    // Testziele fuehren jede Abhaengigkeit auf, die sie importieren - auch die
+    // ohnehin transitiv erreichbaren. Ein implizit mitgezogener Import ist
+    // genau die Art von Kopplung, die dieser Paketgraph verhindern soll.
     .testTarget(name: "GameCoreTests", dependencies: ["GameCore"]),
-    .testTarget(name: "GameContentTests", dependencies: ["GameContent"]),
-    .testTarget(name: "GameRulesTests", dependencies: ["GameRules"]),
-    .testTarget(name: "CreatureSystemTests", dependencies: ["CreatureSystem"]),
+    .testTarget(name: "GameContentTests", dependencies: ["GameContent", "GameCore"]),
+    .testTarget(name: "GameRulesTests", dependencies: ["GameRules", "GameCore"]),
+    .testTarget(
+        name: "CreatureSystemTests",
+        dependencies: ["CreatureSystem", "GameCore", "GameContent"]
+    ),
 ]
 
 let package = Package(

@@ -138,6 +138,10 @@ Signierung. Die teuren macOS-Jobs prüfen nur, was tatsächlich Apple-Plattforme
 
 ## 6. Was in dieser Phase schon echter Code ist
 
+> **Stand nach Phase 4:** `GameCore`, `GameContent`, `GameRules`, `CreatureSystem` und
+> `GameState` sind inzwischen gefüllt — siehe [Datenmodelle](04-datenmodelle.md). Der
+> folgende Abschnitt beschreibt den Stand am Ende von Phase 3.
+
 Fast alles ist bewusst leer — mit einer Ausnahme, die die Pipeline von Ende zu Ende
 belegt: `GameCore.Identifier`.
 

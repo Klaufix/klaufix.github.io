@@ -1,7 +1,8 @@
 //  BattleSystem
 //
 //  Verantwortung
-//  Rundenlogik, Schwung, Haltungen, Elementmatrix, telegrafierte Gegner-KI. Keine Trefferwuerfe.
+//  Rundenlogik, Schwung, Haltungen, Elementmatrix, telegrafierte Gegner-KI. Keine
+//  Trefferwuerfe.
 //
 //  Abhaengigkeiten
 //  Darf importieren: GameCore, GameContent, GameRules

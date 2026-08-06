@@ -33,6 +33,18 @@ jobs:
         working-directory: Modules/GameLogic
         run: swift run ContentValidator "$GITHUB_WORKSPACE/Content"
 
+      # ADR-006: Zufall laeuft ausschliesslich ueber SeededRandom. Ein einziger
+      # vergessener Direktaufruf macht Tests unreproduzierbar und oeffnet
+      # Save-Scumming - eine Regel, an die sich niemand erinnern muss, wenn sie
+      # geprueft wird. Kommentare sind ausgenommen.
+      - name: Deterministischen Zufall erzwingen
+        run: |
+          if grep -rn --include='*.swift' -E '^[^/]*(\.random\(|\.randomElement\(|\.shuffled\(|arc4random|SystemRandomNumberGenerator)' Modules/ App/; then
+            echo "::error::ADR-006 verletzt: nur SeededRandom/RandomSource verwenden."
+            exit 1
+          fi
+          echo "Kein nichtdeterministischer Zufall gefunden."
+
   # SwiftUI-Module bauen nur auf einer Apple-Plattform. Ein Xcode-Projekt
   # braucht es dafuer nicht - das Paket genuegt.
   presentation:

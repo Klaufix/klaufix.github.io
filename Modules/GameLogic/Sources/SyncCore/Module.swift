@@ -1,7 +1,8 @@
 //  SyncCore
 //
 //  Verantwortung
-//  SyncBackend-Protokoll, Geraete-IDs, Lamport-Zaehler, Merge-Strategie. Enthaelt bewusst kein konkretes Backend.
+//  SyncBackend-Protokoll, Geraete-IDs, Lamport-Zaehler, Merge-Strategie. Enthaelt
+//  bewusst kein konkretes Backend.
 //
 //  Abhaengigkeiten
 //  Darf importieren: GameCore

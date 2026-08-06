@@ -25,11 +25,7 @@ public enum ContentLoadError: Error, CustomStringConvertible {
 /// spaetere Quelle ueberschreibt gleichnamige IDs. Damit sind Content-Updates
 /// ohne App-Release moeglich, ohne dass dafuer heute Infrastruktur noetig waere.
 public struct ContentLoader: Sendable {
-    private let decoder: JSONDecoder
-
-    public init() {
-        decoder = JSONDecoder()
-    }
+    public init() {}
 
     public func load(from roots: [URL]) throws -> ContentBundle {
         guard let primary = roots.first else {
@@ -41,17 +37,26 @@ public struct ContentLoader: Sendable {
         var items: [ItemID: ItemDefinition] = [:]
         var cosmetics: [CosmeticID: CosmeticDefinition] = [:]
 
+        // Spaetere Quellen ueberschreiben gleichnamige IDs frueherer Quellen.
         for root in roots {
-            for definition in try decodeAll(SpeciesDefinition.self, in: root, subdirectory: "species") {
+            for definition in try decodeAll(
+                SpeciesDefinition.self, in: root, subdirectory: "species"
+            ) {
                 species[definition.id] = definition
             }
-            for definition in try decodeAll(EvolutionDefinition.self, in: root, subdirectory: "evolutions") {
+            for definition in try decodeAll(
+                EvolutionDefinition.self, in: root, subdirectory: "evolutions"
+            ) {
                 evolutions[definition.id] = definition
             }
-            for definition in try decodeAll(ItemDefinition.self, in: root, subdirectory: "items") {
+            for definition in try decodeAll(
+                ItemDefinition.self, in: root, subdirectory: "items"
+            ) {
                 items[definition.id] = definition
             }
-            for definition in try decodeAll(CosmeticDefinition.self, in: root, subdirectory: "cosmetics") {
+            for definition in try decodeAll(
+                CosmeticDefinition.self, in: root, subdirectory: "cosmetics"
+            ) {
                 cosmetics[definition.id] = definition
             }
         }
@@ -97,13 +102,15 @@ public struct ContentLoader: Sendable {
             .map { try decodeFile(at: $0) }
     }
 
+    // Der Decoder wird bei Bedarf erzeugt statt gespeichert: JSONDecoder ist eine
+    // Klasse, und ein `Sendable`-Wertetyp darf sie nicht als Feld halten.
     private func decodeFile<T: Decodable>(at url: URL) throws -> T {
         guard let data = FileManager.default.contents(atPath: url.path) else {
             throw ContentLoadError.fileMissing(url.path)
         }
 
         do {
-            return try decoder.decode(T.self, from: data)
+            return try JSONDecoder().decode(T.self, from: data)
         } catch {
             throw ContentLoadError.decodingFailed(
                 file: url.lastPathComponent,

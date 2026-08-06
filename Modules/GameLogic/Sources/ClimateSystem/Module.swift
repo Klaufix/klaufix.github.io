@@ -1,7 +1,8 @@
 //  ClimateSystem
 //
 //  Verantwortung
-//  Simuliertes Wetter, Jahreszeiten, Tageszeit, Mondphase. Bezieht seine Eingabe ueber ein Protokoll, damit ein Realwetter-Adapter nachruestbar bleibt (ADR-003).
+//  Simuliertes Wetter, Jahreszeiten, Tageszeit, Mondphase. Bezieht seine Eingabe ueber
+//  ein Protokoll, damit ein Realwetter-Adapter nachruestbar bleibt (ADR-003).
 //
 //  Abhaengigkeiten
 //  Darf importieren: GameCore, GameContent, GameRules

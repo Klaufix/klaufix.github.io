@@ -1,7 +1,8 @@
 //  Persistence
 //
 //  Verantwortung
-//  Atomares Schreiben des Snapshots, angehaengtes Event-Journal, rollierende Backups, Migrationskette.
+//  Atomares Schreiben des Snapshots, angehaengtes Event-Journal, rollierende Backups,
+//  Migrationskette.
 //
 //  Abhaengigkeiten
 //  Darf importieren: GameCore, GameState

@@ -1,7 +1,9 @@
 //  CreatureRenderer
 //
 //  Verantwortung
-//  Darstellung aus AppearanceDescriptor ueber ein AppearanceProvider-Protokoll. MVP: programmatische Vektorformen. Spaeterer Asset-Provider ersetzt genau dieses Modul (ADR-005).
+//  Darstellung aus AppearanceDescriptor ueber ein AppearanceProvider-Protokoll. MVP:
+//  programmatische Vektorformen. Spaeterer Asset-Provider ersetzt genau dieses Modul
+//  (ADR-005).
 //
 //  Abhaengigkeiten
 //  Darf importieren: DesignSystem, GameCore

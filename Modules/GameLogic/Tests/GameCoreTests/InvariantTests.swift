@@ -97,6 +97,10 @@ struct InvariantTests {
 @Suite("Deterministischer Zufall")
 struct RandomSourceTests {
 
+    // Hinweis: `next()` ist mutierend. Die Werte werden deshalb vor dem
+    // `#expect` in Konstanten gezogen - ein mutierender Aufruf innerhalb des
+    // Makro-Ausdrucks wäre unnötig heikel.
+
     @Test("Gleicher Startwert ergibt gleiche Folge")
     func sameSeedSameSequence() {
         var first = RandomSource(seed: 42)
@@ -104,8 +108,10 @@ struct RandomSourceTests {
 
         var a = first.generator(for: .breeding)
         var b = second.generator(for: .breeding)
+        let left = a.next()
+        let right = b.next()
 
-        #expect(a.next() == b.next())
+        #expect(left == right)
     }
 
     @Test("Zwei Züge aus demselben Strom unterscheiden sich")
@@ -114,8 +120,10 @@ struct RandomSourceTests {
 
         var first = source.generator(for: .loot)
         var second = source.generator(for: .loot)
+        let left = first.next()
+        let right = second.next()
 
-        #expect(first.next() != second.next())
+        #expect(left != right)
         #expect(source.drawCount(for: .loot) == 2)
     }
 
@@ -131,8 +139,10 @@ struct RandomSourceTests {
 
         var a = withExtraDraw.generator(for: .breeding)
         var b = without.generator(for: .breeding)
+        let left = a.next()
+        let right = b.next()
 
-        #expect(a.next() == b.next())
+        #expect(left == right)
     }
 
     @Test("Der Spielstand überlebt eine Kodier-Runde mit identischer Fortsetzung")
@@ -147,7 +157,9 @@ struct RandomSourceTests {
 
         var a = source.generator(for: .spawn)
         var b = restored.generator(for: .spawn)
+        let left = a.next()
+        let right = b.next()
 
-        #expect(a.next() == b.next())
+        #expect(left == right)
     }
 }

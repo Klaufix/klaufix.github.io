@@ -1,7 +1,9 @@
 //  GameEngine
 //
 //  Verantwortung
-//  Command-Dispatch an das zustaendige System, Anwendung der erzeugten Events auf den GameState, Zeitaufloesung, Bereitstellung des FactProvider, Snapshot-Erzeugung fuer die UI.
+//  Command-Dispatch an das zustaendige System, Anwendung der erzeugten Events auf den
+//  GameState, Zeitaufloesung, Bereitstellung des FactProvider, Snapshot-Erzeugung fuer
+//  die UI.
 //
 //  Abhaengigkeiten
 //  Darf importieren: GameState, GameRules + alle Systeme

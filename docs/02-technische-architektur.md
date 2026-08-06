@@ -139,9 +139,9 @@ Beides ist der Preis für ein System, das über Jahre wachsen soll.
 ### Kern
 | Modul | Verantwortung | Kennt |
 |---|---|---|
-| `GameCore` | Typisierte IDs, `GameClock`, `SeededRandom`, `GameEvent`/`GameCommand`-Protokolle, Basiswertetypen | – |
+| `GameCore` | Typisierte IDs, `GameClock`, `SeededRandom`, `GameEvent`/`GameCommand`-Protokolle, Basiswertetypen, **Form** der Bedingungsausdrücke | – |
 | `GameContent` | Content-Schema, Laden, Referenz-Validierung, Schema-Version | GameCore |
-| `GameRules` | Bedingungs-Evaluator (`ConditionExpression`), Formeln, Balancing-Kurven | GameCore, GameContent |
+| `GameRules` | **Auswertung** der Bedingungen (`FactProvider`, `ConditionEvaluator`), Formeln, Balancing-Kurven | GameCore, GameContent |
 
 ### Systeme (je ein Target, gegenseitig blind)
 | Modul | Verantwortung |
@@ -241,6 +241,11 @@ oder der Regel-Evaluator unvollständig — nicht der Inhalt außergewöhnlich.
 ---
 
 ## 8. Der Regel-Evaluator (`GameRules`)
+
+> **Nachtrag aus Phase 4:** Der *Datentyp* `ConditionExpression` liegt in `GameCore`,
+> nicht hier — `GameContent` speichert Bedingungen in Evolutionen, und `GameRules` hängt
+> von `GameContent` ab; andernfalls entstünde ein Zyklus. Die *Auswertung* bleibt wie
+> beschrieben in `GameRules`. Daten nach unten, Verhalten oben.
 
 Ein einziger, generischer Bedingungs-Auswerter bedient **alle** Systeme:
 Evolution, Quest-Ziele, Spawn-Tabellen, Event-Verfügbarkeit, Shop-Sichtbarkeit,

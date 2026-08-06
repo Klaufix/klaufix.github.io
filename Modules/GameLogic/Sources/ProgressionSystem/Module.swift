@@ -1,7 +1,8 @@
 //  ProgressionSystem
 //
 //  Verantwortung
-//  Achievements, Titel, Saisonpfad, zentrale Freischalt-Registry (Unlocks und Feature-Flags).
+//  Achievements, Titel, Saisonpfad, zentrale Freischalt-Registry (Unlocks und Feature-
+//  Flags).
 //
 //  Abhaengigkeiten
 //  Darf importieren: GameCore, GameContent, GameRules

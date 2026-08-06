@@ -5,12 +5,16 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 
 > *Arbeitstitel. Der Name taucht bewusst nirgends im Code auf.*
 
+> **Stand:** Phasen 1–4 abgeschlossen. Der Swift-Code ist **noch nie gebaut worden** —
+> Gründe und Auswege stehen im [Projektstand](docs/00-projektstand.md).
+
 ## Dokumentation
 
 | Dokument | Phase | Status |
 |---|---|---|
-| [Game Design Dokument](docs/01-game-design-document.md) | Phase 1 | ✅ Entwurf v0.1 |
-| [Technische Architektur](docs/02-technische-architektur.md) | Phase 2 | ✅ Entwurf v0.1 |
+| [Projektstand](docs/00-projektstand.md) | – | laufend |
+| [Game Design Dokument](docs/01-game-design-document.md) | Phase 1 | ✅ v0.1 |
+| [Technische Architektur](docs/02-technische-architektur.md) | Phase 2 | ✅ v0.1 |
 | [Projektstruktur](docs/03-projektstruktur.md) | Phase 3 | ✅ v0.1 |
 | [Datenmodelle](docs/04-datenmodelle.md) | Phase 4 | ✅ v0.1 |
 | UI-Konzept | Phase 5 | ⏳ als Nächstes |
@@ -59,6 +63,11 @@ docs/         Phasendokumente
 cd Modules/GameLogic && swift build && swift test     # Spiellogik, überall
 cd Modules/Presentation && swift build                # UI, nur Apple-Plattformen
 brew install xcodegen && cd App && xcodegen generate  # Xcode-Projekt erzeugen
+```
+
+```sh
+cd Modules/GameLogic && swift run ContentValidator ../../Content   # Inhalte prüfen
+swift format --recursive --in-place Modules App                   # Formatierung
 ```
 
 ## Leitprinzipien

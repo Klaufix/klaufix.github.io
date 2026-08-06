@@ -32,52 +32,49 @@ struct ConditionEvaluatorTests {
         "equippedTag": .text("summer,rustic,warm"),
     ])
 
+    /// Kurzschreibweise, damit die Testfälle lesbar bleiben.
+    private func holds(_ expression: ConditionExpression) -> Bool {
+        ConditionEvaluator.isSatisfied(expression, by: facts)
+    }
+
     @Test("Eine leere Bedingung ist erfüllt")
     func alwaysIsSatisfied() {
-        #expect(ConditionEvaluator.isSatisfied(.always, by: facts))
+        #expect(holds(.always))
     }
 
     @Test("Zahlenvergleiche werten numerisch aus")
     func numericComparison() {
-        #expect(ConditionEvaluator.isSatisfied(.fact(.level, .greaterOrEqual, .number(16)), by: facts))
-        #expect(!ConditionEvaluator.isSatisfied(.fact(.level, .greaterThan, .number(18)), by: facts))
-        #expect(ConditionEvaluator.isSatisfied(.fact(.level, .equal, .number(18)), by: facts))
+        #expect(holds(.fact(.level, .greaterOrEqual, .number(16))))
+        #expect(!holds(.fact(.level, .greaterThan, .number(18))))
+        #expect(holds(.fact(.level, .equal, .number(18))))
     }
 
     @Test("Ein Parameter unterscheidet Fragen derselben Art")
     func parameterisedFacts() {
-        #expect(
-            ConditionEvaluator.isSatisfied(
-                .fact(.personality, parameter: "courage", .lessThan, .number(70)),
-                by: facts
-            )
-        )
+        #expect(holds(.fact(.personality, parameter: "courage", .lessThan, .number(70))))
+
         // Nach einer Achse, die der Provider nicht kennt, wird nichts geschenkt.
-        #expect(
-            !ConditionEvaluator.isSatisfied(
-                .fact(.personality, parameter: "calm", .greaterThan, .number(0)),
-                by: facts
-            )
-        )
+        #expect(!holds(.fact(.personality, parameter: "calm", .greaterThan, .number(0))))
     }
 
     @Test("Text kennt Gleichheit und Enthaltensein")
     func textComparison() {
-        #expect(ConditionEvaluator.isSatisfied(.fact(.season, .equal, .text("spring")), by: facts))
-        #expect(ConditionEvaluator.isSatisfied(.fact(.equippedTag, .contains, .text("warm")), by: facts))
-        #expect(!ConditionEvaluator.isSatisfied(.fact(.equippedTag, .contains, .text("festive")), by: facts))
+        #expect(holds(.fact(.season, .equal, .text("spring"))))
+        #expect(holds(.fact(.equippedTag, .contains, .text("warm"))))
+        #expect(!holds(.fact(.equippedTag, .contains, .text("festive"))))
     }
 
     @Test("Eine unbekannte Tatsache gilt nie als erfüllt")
     func unknownFactIsNeverSatisfied() {
-        // Ein Tippfehler im Content darf keine Evolution verschenken.
-        #expect(!ConditionEvaluator.isSatisfied(.fact(.moonPhase, .equal, .text("full")), by: facts))
-        #expect(!ConditionEvaluator.isSatisfied(.fact(.moonPhase, .notEqual, .text("full")), by: facts))
+        // Ein Tippfehler im Content darf keine Evolution verschenken - auch
+        // nicht über die Hintertür einer Ungleichheit.
+        #expect(!holds(.fact(.moonPhase, .equal, .text("full"))))
+        #expect(!holds(.fact(.moonPhase, .notEqual, .text("full"))))
     }
 
     @Test("Typmischung ist ein Content-Fehler und nie erfüllt")
     func mismatchedTypesFail() {
-        #expect(!ConditionEvaluator.isSatisfied(.fact(.level, .equal, .text("18")), by: facts))
+        #expect(!holds(.fact(.level, .equal, .text("18"))))
     }
 
     @Test("all, any und not verknüpfen wie erwartet")
@@ -92,7 +89,7 @@ struct ConditionEvaluatorTests {
             .not(.fact(.season, .equal, .text("autumn"))),
         ])
 
-        #expect(ConditionEvaluator.isSatisfied(expression, by: facts))
+        #expect(holds(expression))
     }
 
     @Test("Unerfüllte Einzelbedingungen werden als Hinweise gemeldet")

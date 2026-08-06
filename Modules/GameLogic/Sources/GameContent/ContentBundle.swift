@@ -21,10 +21,12 @@ public struct ContentBundle: Sendable {
         elementChart: ElementChart,
         balancing: BalancingDefinition
     ) {
-        self.species = Dictionary(species.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-        self.evolutions = Dictionary(evolutions.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-        self.items = Dictionary(items.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-        self.cosmetics = Dictionary(cosmetics.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        // Bei doppelten IDs gewinnt der erste Eintrag. Ein Absturz waere hier die
+        // schlechtere Antwort - der Validator meldet den Konflikt ohnehin.
+        self.species = Dictionary(species.map { ($0.id, $0) }) { first, _ in first }
+        self.evolutions = Dictionary(evolutions.map { ($0.id, $0) }) { first, _ in first }
+        self.items = Dictionary(items.map { ($0.id, $0) }) { first, _ in first }
+        self.cosmetics = Dictionary(cosmetics.map { ($0.id, $0) }) { first, _ in first }
         self.elementChart = elementChart
         self.balancing = balancing
     }
