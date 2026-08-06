@@ -57,6 +57,10 @@ jobs:
         working-directory: Modules/Presentation
         run: swift build
 
+      - name: Testen
+        working-directory: Modules/Presentation
+        run: swift test
+
   # Erst dieser Schritt braucht Xcode: er baut das ausliefbare App-Ziel fuer iOS.
   app:
     name: App (iOS)

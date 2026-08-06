@@ -1,6 +1,6 @@
 # Projektstand
 
-> Letzte Aktualisierung: nach Phase 4
+> Letzte Aktualisierung: nach Phase 5
 
 ## Phasen
 
@@ -10,7 +10,7 @@
 | 2 | [Technische Architektur](02-technische-architektur.md) | fertig |
 | 3 | [Projektstruktur](03-projektstruktur.md) | fertig |
 | 4 | [Datenmodelle](04-datenmodelle.md) | fertig, CI grün |
-| 5 | UI-Konzept | offen |
+| 5 | [UI-Konzept](05-ui-konzept.md) | fertig, CI grün |
 | 6 | Grundlegendes Gameplay | offen |
 | 7 | Creature System | offen |
 | 8 | Save System | offen |
@@ -29,7 +29,7 @@ und testet auf einem Linux-Runner, ohne Apple-Hardware.
 | Job | Umfang |
 |---|---|
 | `Spiellogik (Linux)` | `swift build`, 42 Tests, Content-Validierung, ADR-006-Regel |
-| `Darstellung (macOS)` | `swift build` der SwiftUI-Module |
+| `Darstellung (macOS)` | `swift build` und Tests der SwiftUI-Module |
 | `App (iOS)` | XcodeGen + `xcodebuild` |
 
 Lauf 1 fand genau einen echten Fehler: `clamped()` warf jeden nicht-endlichen Wert aufs
@@ -57,7 +57,7 @@ Merge von PR #1 der Fall.
 | 42 Tests der Spiellogik | `swift test` | Linux + macOS |
 | Content-Validierung inkl. Design-Zusagen | `swift run ContentValidator ../../Content` | Linux + macOS |
 | Verbot von nichtdeterministischem Zufall (ADR-006) | CI-Schritt, `grep` | Linux |
-| SwiftUI-Module | `swift build` | macOS |
+| SwiftUI-Module und Renderer-Tests | `swift build`, `swift test` | macOS |
 | iOS-App | XcodeGen + `xcodebuild` | macOS |
 
 ## Werkzeuge

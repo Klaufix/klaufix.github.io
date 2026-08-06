@@ -31,8 +31,17 @@ targets += [
     .target(
         name: "AppComposition",
         dependencies: features.map { Target.Dependency.target(name: $0) }
-            + [Target.Dependency.target(name: "DesignSystem"), logic]
-    )
+            + [
+                Target.Dependency.target(name: "DesignSystem"),
+                Target.Dependency.target(name: "CreatureRenderer"),
+                logic,
+            ]
+    ),
+
+    // Die SwiftUI-freien Teile des Renderers - Aufloesung aus Content,
+    // Stimmung, Farbableitung - sind hier geprueft. Das Zeichnen selbst
+    // pruefen Menschen.
+    .testTarget(name: "CreatureRendererTests", dependencies: ["CreatureRenderer", logic]),
 ]
 
 let package = Package(

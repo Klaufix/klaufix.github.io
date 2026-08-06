@@ -5,7 +5,7 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 
 > *Arbeitstitel. Der Name taucht bewusst nirgends im Code auf.*
 
-> **Stand:** Phasen 1–4 abgeschlossen, CI grün — Build, 42 Tests, Content-Validierung und
+> **Stand:** Phasen 1–5 abgeschlossen, CI grün — Build, 42 Tests, Content-Validierung und
 > iOS-App-Build laufen durch. Details im [Projektstand](docs/00-projektstand.md).
 
 ## Dokumentation
@@ -17,7 +17,8 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 | [Technische Architektur](docs/02-technische-architektur.md) | Phase 2 | ✅ v0.1 |
 | [Projektstruktur](docs/03-projektstruktur.md) | Phase 3 | ✅ v0.1 |
 | [Datenmodelle](docs/04-datenmodelle.md) | Phase 4 | ✅ v0.1 |
-| UI-Konzept | Phase 5 | ⏳ als Nächstes |
+| [UI-Konzept](docs/05-ui-konzept.md) | Phase 5 | ✅ v0.1 |
+| Grundlegendes Gameplay | Phase 6 | ⏳ als Nächstes |
 
 ## Meilensteinplan
 
