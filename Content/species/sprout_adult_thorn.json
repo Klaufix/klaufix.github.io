@@ -1,0 +1,31 @@
+{
+  "id": "sprout_adult_thorn",
+  "schemaVersion": 1,
+  "nameKey": "species.sprout_adult_thorn.name",
+  "descriptionKey": "species.sprout_adult_thorn.description",
+  "element": "leaf",
+  "rarity": "rare",
+  "growthStage": "adult",
+  "baseStats": {
+    "vitality": 34,
+    "power": 30,
+    "resilience": 22,
+    "speed": 24
+  },
+  "preferences": {
+    "favoriteFoodTags": ["bitter", "root"],
+    "dislikedFoodTags": ["sweet"],
+    "favoriteWeather": ["wind"],
+    "sleepsFrom": 23,
+    "sleepsUntil": 5
+  },
+  "appearance": {
+    "silhouette": "round_sprout",
+    "parts": ["thorn_crest", "sharp_eyes", "firm_mouth"],
+    "defaultPalette": "thorn_moss",
+    "variantPalettes": {
+      "shimmer": "thorn_gold"
+    }
+  },
+  "habitats": ["grove", "ridge"]
+}

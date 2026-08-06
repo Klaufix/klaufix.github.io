@@ -1,0 +1,18 @@
+# Xcode - das Projekt wird aus App/project.yml generiert, nicht eingecheckt
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+DerivedData/
+*.xcuserstate
+*.xcscmblueprint
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store
+
+# Werkzeuge
+*.log

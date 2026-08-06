@@ -1,0 +1,7 @@
+{
+  "id": "straw_hat",
+  "schemaVersion": 1,
+  "nameKey": "cosmetic.straw_hat.name",
+  "slot": "head",
+  "tags": ["summer", "rustic", "warm"]
+}
