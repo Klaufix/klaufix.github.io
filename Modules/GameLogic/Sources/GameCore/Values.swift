@@ -42,8 +42,11 @@ public struct NeedValue: Sendable, Hashable, Codable, Comparable {
         lhs.value < rhs.value
     }
 
+    /// Unendlichkeiten werden nach ihrem Vorzeichen begrenzt: `+∞` bedeutet
+    /// „weit ueber dem Maximum", nicht „ganz unten". Nur `NaN` hat keine
+    /// sinnvolle Lage und faellt auf das Minimum zurueck.
     private static func clamped(_ raw: Double) -> Double {
-        guard raw.isFinite else { return minimum }
+        guard !raw.isNaN else { return minimum }
         return min(max(raw, minimum), maximum)
     }
 
@@ -90,7 +93,7 @@ public struct Friendship: Sendable, Hashable, Codable, Comparable {
     }
 
     private static func clamped(_ raw: Double) -> Double {
-        guard raw.isFinite else { return 0 }
+        guard !raw.isNaN else { return 0 }
         return min(max(raw, 0), maximum)
     }
 
@@ -179,7 +182,8 @@ public struct Personality: Sendable, Hashable, Codable {
     }
 
     private static func clamped(_ raw: Double) -> Double {
-        guard raw.isFinite else { return 50 }
+        // NaN landet bei einer Persoenlichkeit sinnvollerweise in der Mitte.
+        guard !raw.isNaN else { return 50 }
         return min(max(raw, 0), 100)
     }
 }

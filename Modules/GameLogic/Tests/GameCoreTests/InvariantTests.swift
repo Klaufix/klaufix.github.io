@@ -22,8 +22,21 @@ struct InvariantTests {
         need.adjust(by: -500)
         #expect(need.value == 0)
 
-        #expect(NeedValue(.nan).value == 0)
+        // Unendlichkeiten werden nach ihrem Vorzeichen begrenzt. Aus einem
+        // beschädigten Spielstand mit `Infinity` darf keine hungernde Kreatur
+        // werden — das wäre stille Bestrafung durch einen Dateifehler.
         #expect(NeedValue(.infinity).value == 100)
+        #expect(NeedValue(-.infinity).value == 0)
+
+        // NaN hat keine sinnvolle Lage und fällt deterministisch ans Minimum.
+        #expect(NeedValue(.nan).value == 0)
+    }
+
+    @Test("Freundschaft begrenzt Unendlichkeit nach Vorzeichen")
+    func friendshipHandlesNonFiniteValues() {
+        #expect(Friendship(.infinity).value == Friendship.maximum)
+        #expect(Friendship(-.infinity).value == 0)
+        #expect(Friendship(.nan).value == 0)
     }
 
     @Test("Verfall hält am Boden an, egal wie viel abgezogen wird")
