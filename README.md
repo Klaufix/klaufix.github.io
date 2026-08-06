@@ -5,8 +5,8 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 
 > *Arbeitstitel. Der Name taucht bewusst nirgends im Code auf.*
 
-> **Stand:** Phasen 1–4 abgeschlossen. Der Swift-Code ist **noch nie gebaut worden** —
-> Gründe und Auswege stehen im [Projektstand](docs/00-projektstand.md).
+> **Stand:** Phasen 1–4 abgeschlossen, CI grün — Build, 42 Tests, Content-Validierung und
+> iOS-App-Build laufen durch. Details im [Projektstand](docs/00-projektstand.md).
 
 ## Dokumentation
 

@@ -9,7 +9,7 @@
 | 1 | [Game Design](01-game-design-document.md) | fertig |
 | 2 | [Technische Architektur](02-technische-architektur.md) | fertig |
 | 3 | [Projektstruktur](03-projektstruktur.md) | fertig |
-| 4 | [Datenmodelle](04-datenmodelle.md) | fertig, **nicht kompiliert** |
+| 4 | [Datenmodelle](04-datenmodelle.md) | fertig, CI grün |
 | 5 | UI-Konzept | offen |
 | 6 | Grundlegendes Gameplay | offen |
 | 7 | Creature System | offen |
@@ -17,41 +17,44 @@
 | 9 | Cloud Sync | offen |
 | 10 | Polishing | offen |
 
-## Offener Punkt: Der Code ist noch nie gebaut worden
+## Erster Build: grün
 
-Das ist die wichtigste Information über dieses Repository, deshalb steht sie hier und
-nicht nur in einem Chatverlauf.
+Der Code der Phasen 1–4 ist entstanden, ohne je kompiliert worden zu sein — in der
+Entwicklungsumgebung war keine Swift-Toolchain verfügbar (`download.swift.org` per
+Egress-Policy gesperrt). Genau dafür ist die Spiellogik UI-frei geschnitten: Sie baut
+und testet auf einem Linux-Runner, ohne Apple-Hardware.
 
-**Zwei Hindernisse, beide außerhalb des Codes:**
+**Lauf 2 (Commit `e77299a`): alle drei Jobs erfolgreich.**
 
-1. **Keine Swift-Toolchain in der Entwicklungsumgebung.** `download.swift.org` ist per
-   Egress-Policy gesperrt. Deshalb ist die gesamte Spiellogik UI-frei geschnitten — sie
-   soll auf einem Linux-CI-Runner bauen und testen.
-2. **Die CI springt bei automatisierten Pushes nicht an.** GitHub Actions ist im
-   Repository aktiv (der frühere Jekyll-Workflow lief erfolgreich), aber Pushes über
-   einen GitHub-App-Token lösen absichtlich keine Workflow-Läufe aus. `workflow_dispatch`
-   scheitert zusätzlich, solange `ci.yml` nicht auf dem Default-Branch liegt.
+| Job | Umfang |
+|---|---|
+| `Spiellogik (Linux)` | `swift build`, 42 Tests, Content-Validierung, ADR-006-Regel |
+| `Darstellung (macOS)` | `swift build` der SwiftUI-Module |
+| `App (iOS)` | XcodeGen + `xcodebuild` |
 
-**Wege, den ersten Build auszulösen** (einer genügt):
+Lauf 1 fand genau einen echten Fehler: `clamped()` warf jeden nicht-endlichen Wert aufs
+Minimum, sodass ein beschädigter Spielstand mit `Infinity` eine hungernde Kreatur ergeben
+hätte. Behoben — Unendlichkeiten werden nach Vorzeichen begrenzt, nur `NaN` fällt zurück.
+Beide Paketmanifeste, die `Codable`-Details und die `swift-testing`-Syntax stimmten auf
+Anhieb.
 
-- `ci.yml` nach `main` bringen — danach ist der Workflow registriert und manuell
-  auslösbar, auch für Feature-Branches.
-- Einen Commit von einem persönlichen Konto auf den Branch pushen (ein leerer Commit
-  reicht: `git commit --allow-empty -m "CI anstoßen"`).
-- Lokal bauen:
-  ```sh
-  cd Modules/GameLogic && swift build && swift test
-  ```
+### CI-Läufe auslösen
 
-**Erwartung an den ersten Lauf:** Er wird vermutlich rot. Vier Phasen Code sind ohne
-Compiler entstanden; wahrscheinliche Kandidaten sind die Paketmanifeste, `Codable`-Details
-und die `swift-testing`-Syntax. Die Nacharbeit gehört zum Plan, nicht zu den Überraschungen.
+Pushes über einen GitHub-App-Token lösen **absichtlich keine** Workflow-Läufe aus. Läufe
+entstehen daher entweder durch einen Push von einem persönlichen Konto oder manuell:
 
-## Prüfschritte, die heute schon greifen
+```sh
+gh workflow run ci.yml --ref <branch>
+```
+
+Voraussetzung dafür ist, dass `ci.yml` auf dem Default-Branch liegt — das ist seit dem
+Merge von PR #1 der Fall.
+
+## Prüfschritte, die greifen
 
 | Prüfung | Wo | Läuft auf |
 |---|---|---|
-| Aufbau- und Regressionstests der Spiellogik | `swift test` | Linux + macOS |
+| 42 Tests der Spiellogik | `swift test` | Linux + macOS |
 | Content-Validierung inkl. Design-Zusagen | `swift run ContentValidator ../../Content` | Linux + macOS |
 | Verbot von nichtdeterministischem Zufall (ADR-006) | CI-Schritt, `grep` | Linux |
 | SwiftUI-Module | `swift build` | macOS |
@@ -73,6 +76,7 @@ swift format --recursive --in-place Modules App
 brew install xcodegen && cd App && xcodegen generate
 ```
 
-> Die Formatprüfung ist bewusst **nicht** in der CI verdrahtet: Sie hier blind scharf zu
-> schalten, würde nur einen roten Build erzeugen, den niemand nachvollziehen kann. Sobald
-> der erste Lauf grün ist, gehört `swift format lint --strict` als Schritt dazu.
+> Die Formatprüfung ist noch **nicht** in der CI verdrahtet. Sinnvoll wird der Schritt
+> erst nach einem einmaligen `swift format --in-place` über den Bestand — sonst meldet er
+> beim ersten Lauf hunderte Abweichungen auf einmal. Der Durchlauf braucht eine Maschine
+> mit Swift-Toolchain; danach gehört `swift format lint --strict` als Schritt dazu.
