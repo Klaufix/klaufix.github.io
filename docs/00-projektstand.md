@@ -11,7 +11,7 @@
 | 3 | [Projektstruktur](03-projektstruktur.md) | fertig |
 | 4 | [Datenmodelle](04-datenmodelle.md) | fertig, CI grün |
 | 5 | [UI-Konzept](05-ui-konzept.md) | fertig, CI grün |
-| 6 | [Grundlegendes Gameplay](06-grundlegendes-gameplay.md) | fertig |
+| 6 | [Grundlegendes Gameplay](06-grundlegendes-gameplay.md) | fertig, CI grün |
 | 7 | Creature System | offen |
 | 8 | Save System | offen |
 | 9 | Cloud Sync | offen |
@@ -24,11 +24,11 @@ Entwicklungsumgebung war keine Swift-Toolchain verfügbar (`download.swift.org` 
 Egress-Policy gesperrt). Genau dafür ist die Spiellogik UI-frei geschnitten: Sie baut
 und testet auf einem Linux-Runner, ohne Apple-Hardware.
 
-**Lauf 2 (Commit `e77299a`): alle drei Jobs erfolgreich.**
+**Alle Läufe seit Commit `e77299a`: drei von drei Jobs erfolgreich.**
 
 | Job | Umfang |
 |---|---|
-| `Spiellogik (Linux)` | `swift build`, 42 Tests, Content-Validierung, ADR-006-Regel |
+| `Spiellogik (Linux)` | `swift build`, 78 Tests, Content-Validierung, ADR-006-Regel |
 | `Darstellung (macOS)` | `swift build` und Tests der SwiftUI-Module |
 | `App (iOS)` | XcodeGen + `xcodebuild` |
 
@@ -47,6 +47,12 @@ entstehen daher entweder durch einen Push von einem persönlichen Konto oder man
 gh workflow run ci.yml --ref <branch>
 ```
 
+Ein Hinweis aus der Praxis: Ein Lauf blieb einmal über eine Stunde in der
+Warteschlange stehen und ließ sich nicht einmal abbrechen (409 vom API). Da die
+Concurrency-Gruppe nur aus Workflow und Branch bestand, blockierte dieser tote Lauf
+jeden weiteren Lauf desselben Branches. Die Gruppe enthält deshalb jetzt zusätzlich
+den Commit.
+
 Voraussetzung dafür ist, dass `ci.yml` auf dem Default-Branch liegt — das ist seit dem
 Merge von PR #1 der Fall.
 
@@ -54,7 +60,7 @@ Merge von PR #1 der Fall.
 
 | Prüfung | Wo | Läuft auf |
 |---|---|---|
-| 42 Tests der Spiellogik | `swift test` | Linux + macOS |
+| 78 Tests der Spiellogik | `swift test` | Linux + macOS |
 | Content-Validierung inkl. Design-Zusagen | `swift run ContentValidator ../../Content` | Linux + macOS |
 | Verbot von nichtdeterministischem Zufall (ADR-006) | CI-Schritt, `grep` | Linux |
 | SwiftUI-Module und Renderer-Tests | `swift build`, `swift test` | macOS |
