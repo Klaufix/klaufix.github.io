@@ -9,4 +9,6 @@
 //  Darf niemals ein anderes System importieren. Systemuebergreifende Wirkung
 //  entsteht ausschliesslich ueber Events (siehe docs/02-technische-architektur.md).
 //
-//  Wird mit Inhalt gefuellt in Phase 6.
+//  Stand: Jahreszeit aus Datum und Hemisphaere, zustandsloses Wetter aus
+//  Startwert und Zeitfenster, Zerlegung der Zeit in Stundenabschnitte (Phase 6).
+//  Offen: Wetterwirkung auf Spawns und Aktivitaeten (Phase 7).

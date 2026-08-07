@@ -34,6 +34,42 @@ public enum ContentValidation {
         issues += validateEvolutions(bundle)
         issues += validateItems(bundle)
         issues += validateBalancing(bundle)
+        issues += validateClimate(bundle)
+
+        return issues
+    }
+
+    // MARK: - Klima
+
+    private static func validateClimate(_ bundle: ContentBundle) -> [ContentIssue] {
+        var issues: [ContentIssue] = []
+        let subject = "climate/climate.json"
+
+        if bundle.climate.slotHours < 1 {
+            issues.append(
+                ContentIssue(
+                    severity: .error,
+                    subject: subject,
+                    message: "slotHours muss mindestens 1 sein."
+                )
+            )
+        }
+
+        // Jede Jahreszeit braucht mindestens eine moegliche Wetterlage, sonst
+        // steht die Welt in dieser Jahreszeit ohne Wetter da.
+        for season in Season.allCases {
+            let total = bundle.climate.weather.reduce(0) { $0 + $1.weight(in: season) }
+            if total <= 0 {
+                issues.append(
+                    ContentIssue(
+                        severity: .error,
+                        subject: subject,
+                        message: "keine Wetterlage fuer \(season.rawValue) - "
+                            + "diese Jahreszeit haette kein Wetter."
+                    )
+                )
+            }
+        }
 
         return issues
     }

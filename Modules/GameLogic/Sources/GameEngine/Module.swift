@@ -10,4 +10,6 @@
 //  Darf niemals ein anderes System importieren. Systemuebergreifende Wirkung
 //  entsteht ausschliesslich ueber Events (siehe docs/02-technische-architektur.md).
 //
-//  Wird mit Inhalt gefuellt in Phase 6.
+//  Stand: Zeitaufloesung, Command-Dispatch fuer Pflege, FactProvider und
+//  Neue-Partie-Aufbau (Phase 6).
+//  Offen: Event-Journal, weitere Systeme (Phase 7/8).

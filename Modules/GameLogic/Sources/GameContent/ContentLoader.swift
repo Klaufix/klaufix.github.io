@@ -67,6 +67,9 @@ public struct ContentLoader: Sendable {
         let balancing: BalancingDefinition = try decodeFile(
             at: primary.appendingPathComponent("balancing/balancing.json")
         )
+        let climate: ClimateDefinition = try decodeFile(
+            at: primary.appendingPathComponent("climate/climate.json")
+        )
 
         return ContentBundle(
             species: Array(species.values),
@@ -74,7 +77,8 @@ public struct ContentLoader: Sendable {
             items: Array(items.values),
             cosmetics: Array(cosmetics.values),
             elementChart: chart,
-            balancing: balancing
+            balancing: balancing,
+            climate: climate
         )
     }
 

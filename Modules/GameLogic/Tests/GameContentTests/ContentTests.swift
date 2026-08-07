@@ -87,6 +87,25 @@ struct ContentTests {
         }
     }
 
+    @Test("Jede Jahreszeit hat mögliches Wetter")
+    func everySeasonHasWeather() throws {
+        let climate = try loadBundle().climate
+
+        for season in Season.allCases {
+            let total = climate.weather.reduce(0) { $0 + $1.weight(in: season) }
+            #expect(total > 0, "\(season.rawValue) hätte kein Wetter.")
+        }
+    }
+
+    @Test("Schnee kommt nur im Winter vor")
+    func snowIsWinterOnly() throws {
+        let climate = try loadBundle().climate
+        guard let snow = climate.weather.first(where: { $0.id == "snow" }) else { return }
+
+        #expect(snow.weight(in: .winter) > 0)
+        #expect(snow.weight(in: .summer) == 0)
+    }
+
     @Test("Der Komfort-Boden steht über null")
     func offlineFloorIsPositive() throws {
         let balancing = try loadBundle().balancing
@@ -120,6 +139,22 @@ struct ContentValidationTests {
 
         let chartJSON = #"{ "schemaVersion": 1, "elements": ["leaf"] }"#
 
+        // Ein Wetter, das in jeder Jahreszeit vorkommt - sonst meldet der
+        // Validator zu Recht, dass eine Jahreszeit ohne Wetter dasteht.
+        let climateJSON = """
+        {
+          "schemaVersion": 1,
+          "slotHours": 6,
+          "weather": [
+            {
+              "id": "sun",
+              "nameKey": "weather.sun",
+              "weights": { "spring": 1, "summer": 1, "autumn": 1, "winter": 1 }
+            }
+          ]
+        }
+        """
+
         return ContentBundle(
             species: [],
             evolutions: [],
@@ -130,6 +165,9 @@ struct ContentValidationTests {
             ),
             balancing: try JSONDecoder().decode(
                 BalancingDefinition.self, from: Data(balancingJSON.utf8)
+            ),
+            climate: try JSONDecoder().decode(
+                ClimateDefinition.self, from: Data(climateJSON.utf8)
             )
         )
     }

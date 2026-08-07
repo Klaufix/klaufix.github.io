@@ -159,6 +159,13 @@ public enum NeedKind: String, Sendable, Codable, CaseIterable {
 public struct NeedEffect: Sendable, Hashable, Codable {
     public let need: NeedKind
     public let amount: Double
+
+    /// Oeffentlich, weil Events diese Wirkung mitfuehren - und ein Test in einem
+    /// anderen Modul so ein Event bauen koennen muss.
+    public init(need: NeedKind, amount: Double) {
+        self.need = need
+        self.amount = amount
+    }
 }
 
 public enum CosmeticSlot: String, Sendable, Codable, CaseIterable {

@@ -5,8 +5,9 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 
 > *Arbeitstitel. Der Name taucht bewusst nirgends im Code auf.*
 
-> **Stand:** Phasen 1–5 abgeschlossen, CI grün — Build, 42 Tests, Content-Validierung und
-> iOS-App-Build laufen durch. Details im [Projektstand](docs/00-projektstand.md).
+> **Stand:** Phasen 1–6 abgeschlossen — die App ist spielbar: Die Zeit läuft in Echtzeit
+> weiter, die Kreatur reagiert, man kann sie füttern, streicheln und schlafen legen.
+> Details im [Projektstand](docs/00-projektstand.md).
 
 ## Dokumentation
 
@@ -18,7 +19,8 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 | [Projektstruktur](docs/03-projektstruktur.md) | Phase 3 | ✅ v0.1 |
 | [Datenmodelle](docs/04-datenmodelle.md) | Phase 4 | ✅ v0.1 |
 | [UI-Konzept](docs/05-ui-konzept.md) | Phase 5 | ✅ v0.1 |
-| Grundlegendes Gameplay | Phase 6 | ⏳ als Nächstes |
+| [Grundlegendes Gameplay](docs/06-grundlegendes-gameplay.md) | Phase 6 | ✅ v0.1 |
+| Creature System | Phase 7 | ⏳ als Nächstes |
 
 ## Meilensteinplan
 

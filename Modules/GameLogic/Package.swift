@@ -56,6 +56,16 @@ targets += [
         name: "CreatureSystemTests",
         dependencies: ["CreatureSystem", "GameCore", "GameContent"]
     ),
+    .testTarget(
+        name: "ClimateSystemTests",
+        dependencies: ["ClimateSystem", "GameCore", "GameContent"]
+    ),
+    .testTarget(
+        name: "GameEngineTests",
+        dependencies: [
+            "GameEngine", "GameCore", "GameContent", "CreatureSystem", "ClimateSystem",
+        ]
+    ),
 ]
 
 let package = Package(

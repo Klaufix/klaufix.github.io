@@ -1,0 +1,155 @@
+import CreatureRenderer
+import CreatureSystem
+import Foundation
+import GameContent
+import GameCore
+import GameEngine
+import Observation
+
+/// Der beobachtbare Wrapper um die Engine.
+///
+/// Die Engine selbst ist plattformunabhängig und weiß nichts von SwiftUI. Erst
+/// hier, in der Darstellungsschicht, wird sie beobachtbar. Diese Grenze ist
+/// nicht Geschmack, sondern Voraussetzung dafür, dass die Spiellogik unter Linux
+/// getestet werden kann.
+@MainActor
+@Observable
+public final class HomeModel {
+    private var engine: GameEngine
+
+    public private(set) var summary: ResolveSummary?
+    /// Die Rückkehr-Szene wird einmal gezeigt und dann weggelegt — sie ist ein
+    /// Wiedersehen, keine Statusmeldung, die stehen bleibt.
+    public var showsReunion: Bool = false
+
+    public init(engine: GameEngine) {
+        self.engine = engine
+    }
+
+    // MARK: - Zustand für die Ansicht
+
+    public var record: CreatureRecord? { engine.state.activeCreature }
+
+    public var species: SpeciesDefinition? {
+        guard let record else { return nil }
+        return engine.content.species[record.individual.speciesID]
+    }
+
+    public var displayName: String {
+        record?.individual.nickname ?? "Kleines Wesen"
+    }
+
+    public var descriptor: AppearanceDescriptor? {
+        guard let record, let species else { return nil }
+        return AppearanceResolver.descriptor(
+            for: species.appearance,
+            variant: record.individual.variant,
+            stage: species.growthStage,
+            cosmetics: record.state.cosmetics
+        )
+    }
+
+    public var mood: CreatureMood {
+        guard let record else { return .content }
+        return CreatureMood.from(
+            satiation: record.state.needs.satiation.value,
+            energy: record.state.needs.energy.value,
+            mood: record.state.needs.mood.value,
+            health: record.state.needs.health.value,
+            isAsleep: record.state.isAsleep
+        )
+    }
+
+    /// Der Zustand in Worten. Grundlage für VoiceOver und für die Zeile unter
+    /// der Kreatur — Farbe ist nie der einzige Träger einer Information.
+    public var moodDescription: String {
+        switch mood {
+        case .happy: "rundum glücklich"
+        case .content: "zufrieden"
+        case .sleepy: record?.state.isAsleep == true ? "schläft" : "müde"
+        case .hungry: "hat Hunger"
+        case .unwell: "fühlt sich nicht gut"
+        }
+    }
+
+    public var isAsleep: Bool { record?.state.isAsleep ?? false }
+
+    /// Ein einzelner, freundlicher Vorschlag — nie eine Liste offener Aufgaben.
+    public var suggestion: String? {
+        guard let record else { return nil }
+        if record.state.needs.satiation.value < 45 { return "Sie schaut zum Napf." }
+        if record.state.needs.tiredness.value > 70 && !record.state.isAsleep {
+            return "Sie gähnt. Vielleicht ist es Zeit fürs Bett."
+        }
+        if record.state.needs.mood.value < 50 { return "Ein bisschen Zuwendung täte gut." }
+        return nil
+    }
+
+    public var accessibilitySummary: String {
+        "\(displayName), \(moodDescription)"
+    }
+
+    // MARK: - Handlungen
+
+    public func refresh(now: Date = Date()) {
+        let result = engine.resolveTime(now: now)
+        summary = result
+        if result.isReunion {
+            showsReunion = true
+        }
+    }
+
+    public func feed(_ item: ItemID = "sun_berry") {
+        guard let record else { return }
+        engine.perform(.feed(record.id, item))
+    }
+
+    public func pet() {
+        guard let record else { return }
+        engine.perform(.pet(record.id))
+    }
+
+    public func toggleSleep() {
+        guard let record else { return }
+        engine.perform(record.state.isAsleep ? .wake(record.id) : .putToSleep(record.id))
+    }
+
+    // MARK: - Anzeige
+
+    public var needs: [(title: String, symbol: String, fraction: Double, state: String)] {
+        guard let record else { return [] }
+        return [
+            (
+                "Sättigung", "leaf.fill", record.state.needs.satiation.fraction,
+                word(for: record.state.needs.satiation.fraction)
+            ),
+            (
+                "Energie", "bolt.fill", record.state.needs.energy.fraction,
+                word(for: record.state.needs.energy.fraction)
+            ),
+            (
+                "Stimmung", "heart.fill", record.state.needs.mood.fraction,
+                word(for: record.state.needs.mood.fraction)
+            ),
+        ]
+    }
+
+    private func word(for fraction: Double) -> String {
+        switch fraction {
+        case ..<0.3: "möchte etwas"
+        case ..<0.6: "geht so"
+        case ..<0.85: "zufrieden"
+        default: "bestens"
+        }
+    }
+
+    /// Der Empfang nach längerer Abwesenheit. Je länger weg, desto herzlicher —
+    /// und niemals ein Vorwurf.
+    public var reunionText: String {
+        guard let summary, summary.absenceHours >= 24 else { return "Schön, dass du da bist." }
+        let days = Int(summary.absenceHours / 24)
+        if days >= 7 { return "\(displayName) hat dich sehr vermisst — und viel zu erzählen." }
+        if days >= 1 { return "\(displayName) hat dich vermisst." }
+        return "Schön, dass du da bist."
+    }
+}

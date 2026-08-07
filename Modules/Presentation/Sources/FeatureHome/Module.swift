@@ -8,4 +8,6 @@
 //  Darf niemals ein anderes System importieren. Systemuebergreifende Wirkung
 //  entsteht ausschliesslich ueber Events (siehe docs/02-technische-architektur.md).
 //
-//  Wird mit Inhalt gefuellt in Phase 6.
+//  Stand: Hauptbildschirm mit Buehne, Beduerfnissen, Pflegegesten und
+//  Rueckkehr-Szene (Phase 6).
+//  Offen: Kulisse je Wetter, Ernte, Haptik (Phase 7).

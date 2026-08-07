@@ -12,6 +12,7 @@ public struct ContentBundle: Sendable {
     public let cosmetics: [CosmeticID: CosmeticDefinition]
     public let elementChart: ElementChart
     public let balancing: BalancingDefinition
+    public let climate: ClimateDefinition
 
     public init(
         species: [SpeciesDefinition],
@@ -19,8 +20,10 @@ public struct ContentBundle: Sendable {
         items: [ItemDefinition],
         cosmetics: [CosmeticDefinition],
         elementChart: ElementChart,
-        balancing: BalancingDefinition
+        balancing: BalancingDefinition,
+        climate: ClimateDefinition
     ) {
+        self.climate = climate
         // Bei doppelten IDs gewinnt der erste Eintrag. Ein Absturz waere hier die
         // schlechtere Antwort - der Validator meldet den Konflikt ohnehin.
         self.species = Dictionary(species.map { ($0.id, $0) }) { first, _ in first }

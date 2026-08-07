@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "slotHours": 6,
+  "weather": [
+    {
+      "id": "sun",
+      "nameKey": "weather.sun",
+      "weights": { "spring": 40, "summer": 55, "autumn": 28, "winter": 20 }
+    },
+    {
+      "id": "rain",
+      "nameKey": "weather.rain",
+      "weights": { "spring": 32, "summer": 20, "autumn": 34, "winter": 18 }
+    },
+    {
+      "id": "wind",
+      "nameKey": "weather.wind",
+      "weights": { "spring": 18, "summer": 14, "autumn": 24, "winter": 20 }
+    },
+    {
+      "id": "fog",
+      "nameKey": "weather.fog",
+      "weights": { "spring": 10, "summer": 6, "autumn": 22, "winter": 14 }
+    },
+    {
+      "id": "snow",
+      "nameKey": "weather.snow",
+      "weights": { "winter": 34 }
+    }
+  ]
+}

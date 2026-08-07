@@ -1,6 +1,6 @@
 # Projektstand
 
-> Letzte Aktualisierung: nach Phase 5
+> Letzte Aktualisierung: nach Phase 6
 
 ## Phasen
 
@@ -11,7 +11,7 @@
 | 3 | [Projektstruktur](03-projektstruktur.md) | fertig |
 | 4 | [Datenmodelle](04-datenmodelle.md) | fertig, CI grün |
 | 5 | [UI-Konzept](05-ui-konzept.md) | fertig, CI grün |
-| 6 | Grundlegendes Gameplay | offen |
+| 6 | [Grundlegendes Gameplay](06-grundlegendes-gameplay.md) | fertig |
 | 7 | Creature System | offen |
 | 8 | Save System | offen |
 | 9 | Cloud Sync | offen |

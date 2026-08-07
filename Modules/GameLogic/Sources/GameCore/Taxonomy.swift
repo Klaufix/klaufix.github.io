@@ -72,6 +72,14 @@ public enum Season: String, Sendable, Codable, CaseIterable {
     }
 }
 
+/// Auf der Suedhalbkugel ist im Dezember Sommer. Ein Spiel, das Jahreszeiten
+/// ernst nimmt, muss das wissen - sonst feiert die halbe Welt das Erntefest im
+/// Fruehling.
+public enum Hemisphere: String, Sendable, Codable, CaseIterable {
+    case northern
+    case southern
+}
+
 public enum TimeOfDay: String, Sendable, Codable, CaseIterable {
     case morning
     case day
