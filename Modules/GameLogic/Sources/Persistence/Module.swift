@@ -9,4 +9,6 @@
 //  Darf niemals ein anderes System importieren. Systemuebergreifende Wirkung
 //  entsteht ausschliesslich ueber Events (siehe docs/02-technische-architektur.md).
 //
-//  Wird mit Inhalt gefuellt in Phase 8.
+//  Stand: Snapshot mit Pruefsumme, atomares Schreiben, rollierende
+//  Sicherungen, Migrationskette (Phase 8).
+//  Offen: Event-Journal (Phase 9).

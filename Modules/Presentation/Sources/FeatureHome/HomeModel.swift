@@ -5,6 +5,7 @@ import Foundation
 import GameContent
 import GameCore
 import GameEngine
+import GameState
 import Observation
 
 /// Ein Album-Eintrag als reine Anzeigedaten.
@@ -36,8 +37,20 @@ public final class HomeModel {
     /// Wiedersehen, keine Statusmeldung, die stehen bleibt.
     public var showsReunion: Bool = false
 
-    public init(engine: GameEngine) {
+    /// Wird nach jeder Zustandsänderung gerufen — daran hängt das Speichern.
+    ///
+    /// Als Rückruf statt als Abhängigkeit: `FeatureHome` soll nicht wissen,
+    /// dass es so etwas wie Dateien gibt. Wer speichert, entscheidet
+    /// AppComposition.
+    private let onChange: (@MainActor (GameState) -> Void)?
+
+    public init(engine: GameEngine, onChange: (@MainActor (GameState) -> Void)? = nil) {
         self.engine = engine
+        self.onChange = onChange
+    }
+
+    private func changed() {
+        onChange?(engine.state)
     }
 
     // MARK: - Zustand für die Ansicht
@@ -158,21 +171,25 @@ public final class HomeModel {
         if result.isReunion {
             showsReunion = true
         }
+        changed()
     }
 
     public func feed(_ item: ItemID = "sun_berry") {
         guard let record else { return }
         engine.perform(.feed(record.id, item))
+        changed()
     }
 
     public func pet() {
         guard let record else { return }
         engine.perform(.pet(record.id))
+        changed()
     }
 
     public func toggleSleep() {
         guard let record else { return }
         engine.perform(record.state.isAsleep ? .wake(record.id) : .putToSleep(record.id))
+        changed()
     }
 
     // MARK: - Anzeige

@@ -75,6 +75,10 @@ targets += [
         name: "AlbumSystemTests",
         dependencies: ["AlbumSystem", "GameCore", "GameContent"]
     ),
+    .testTarget(
+        name: "PersistenceTests",
+        dependencies: ["Persistence", "GameCore", "GameState", "CreatureSystem"]
+    ),
 ]
 
 let package = Package(

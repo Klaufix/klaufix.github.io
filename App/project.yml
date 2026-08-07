@@ -25,6 +25,12 @@ targets:
     platform: iOS
     sources:
       - path: Sources
+      # Das Content-Verzeichnis wird als Ordner-Referenz mitgeliefert, damit es
+      # zur Laufzeit unter Bundle.main/Content liegt - genau dort sucht
+      # ContentSource danach.
+      - path: ../Content
+        type: folder
+        buildPhase: resources
     dependencies:
       - package: Presentation
         product: AppComposition
