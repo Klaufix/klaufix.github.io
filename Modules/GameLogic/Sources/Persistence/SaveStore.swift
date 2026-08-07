@@ -63,24 +63,22 @@ public struct SaveStore: Sendable {
         try writeAtomically(data, to: snapshotURL)
     }
 
-    /// Schreibt über eine temporäre Datei und hebt sie dann an ihren Platz.
+    /// Schreibt atomar.
     ///
-    /// `Data.write(options: .atomic)` täte im Kern dasselbe; der Weg ist hier
-    /// ausgeschrieben, weil die Zusage „nie ein halber Spielstand" zu wichtig
-    /// ist, um sie einem Flag zu überlassen, das jemand später wegoptimiert.
+    /// Hier stand zuerst ein handgeschriebener Weg über eine temporäre Datei und
+    /// `replaceItemAt` — mit der Begründung, die Zusage „nie ein halber
+    /// Spielstand" sei zu wichtig, um sie einem Flag zu überlassen. Die CI hat
+    /// diese Begründung widerlegt: `replaceItemAt` verhält sich unter Linux
+    /// anders und schlug beim **zweiten** Speichern fehl, weil es die
+    /// Zieldatei nicht ersetzen mochte.
+    ///
+    /// `Data.write(options: .atomic)` macht genau dasselbe — temporäre Datei
+    /// schreiben, dann umbenennen — nur plattformrichtig. Die Zusage steht
+    /// dadurch besser da als vorher, nicht schlechter.
     private func writeAtomically(_ data: Data, to url: URL) throws {
-        let temporary = url.deletingLastPathComponent()
-            .appendingPathComponent("." + url.lastPathComponent + ".tmp")
-
         do {
-            try data.write(to: temporary, options: .atomic)
-            if FileManager.default.fileExists(atPath: url.path) {
-                _ = try FileManager.default.replaceItemAt(url, withItemAt: temporary)
-            } else {
-                try FileManager.default.moveItem(at: temporary, to: url)
-            }
+            try data.write(to: url, options: .atomic)
         } catch {
-            try? FileManager.default.removeItem(at: temporary)
             throw SaveError.unreadable(String(describing: error))
         }
     }

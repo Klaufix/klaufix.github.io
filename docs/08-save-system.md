@@ -15,9 +15,12 @@ Geschrieben wird in eine temporäre Datei, die danach an ihren Platz gehoben wir
 Absturz mitten im Schreiben hinterlässt **entweder den alten oder den neuen** Stand — nie
 einen halben.
 
-`Data.write(options: .atomic)` täte im Kern dasselbe. Der Weg ist trotzdem ausgeschrieben:
-Die Zusage ist zu wichtig, um sie einem Flag zu überlassen, das jemand später
-wegoptimiert.
+> **Nachtrag aus der CI.** Zuerst stand hier ein handgeschriebener Weg über
+> `replaceItemAt`, mit der Begründung, die Zusage sei zu wichtig für ein Flag. Der erste
+> Testlauf hat das widerlegt: `replaceItemAt` verhält sich unter Linux anders und schlug
+> beim **zweiten** Speichern fehl. `Data.write(options: .atomic)` tut dasselbe —
+> temporäre Datei, dann umbenennen — nur plattformrichtig. Zwei Tests, die genau diesen
+> Fall abdecken, hatten die Begründung geprüft und für falsch befunden.
 
 ### Selbstheilend
 Vor jedem Überschreiben wandert der bisherige Stand in die Sicherungen (fünf Stück,
