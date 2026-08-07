@@ -20,9 +20,17 @@ public enum SaveMigration {
         let apply: ([String: Any]) -> [String: Any]
     }
 
-    static let steps: [Step] = [
-        Step(from: 1, apply: migrateOneToTwo)
-    ]
+    /// Berechnet statt gespeichert.
+    ///
+    /// Ein `static let` waere globaler Zustand, und ein Schritt haelt eine
+    /// Funktion auf `[String: Any]` - das ist nicht `Sendable` und laesst sich
+    /// unter Swift 6 auch nicht dazu erklaeren. Die Liste bei Bedarf zu bauen
+    /// kostet nichts und macht die Frage gegenstandslos.
+    static var steps: [Step] {
+        [
+            Step(from: 1, apply: migrateOneToTwo)
+        ]
+    }
 
     /// Bringt ein Spielstand-JSON auf die aktuelle Version.
     public static func migrate(
