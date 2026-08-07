@@ -56,6 +56,21 @@ struct GrowthTests {
         #expect(Growth.experienceToAdvance(from: Growth.maximumLevel) == Int.max)
     }
 
+    @Test("Die frühen Stufen sind mit Pflege allein erreichbar")
+    func earlyLevelsAreReachableByCare() {
+        // Festgehalten, weil ein Fixture-Wert einmal daneben lag: Die Kurve
+        // steigt schnell, und „ein paar Streicheleinheiten" reichen eben nicht
+        // beliebig weit. 40 Pflegehandlungen sind 120 Erfahrung.
+        let toLevelThree =
+            Growth.experienceToAdvance(from: 1) + Growth.experienceToAdvance(from: 2)
+        let toLevelFive =
+            toLevelThree + Growth.experienceToAdvance(from: 3)
+            + Growth.experienceToAdvance(from: 4)
+
+        #expect(toLevelThree < 40 * Growth.experiencePerCareAction)
+        #expect(toLevelFive > 100 * Growth.experiencePerCareAction)
+    }
+
     @Test("Die Höchststufe wird nicht überschritten")
     func maximumLevelHolds() {
         var state = CreatureState(cursor: TimeCursor(startingAt: origin))

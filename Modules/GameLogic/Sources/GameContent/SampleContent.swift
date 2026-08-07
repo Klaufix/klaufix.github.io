@@ -80,6 +80,11 @@ extension ContentBundle {
 
     /// Ein friedlicher Entwicklungsweg: Stufe und Freundschaft genügen — kein
     /// Kampf nötig (Design-Säule 4).
+    ///
+    /// Die Schwelle liegt bewusst niedriger als im ausgelieferten Content
+    /// (dort Stufe 16): Ein Test soll sie mit ein paar Dutzend Pflegehandlungen
+    /// erreichen und nicht mit hunderten. Stufe 3 kostet kumuliert 95 Erfahrung,
+    /// Stufe 5 dagegen 434 — dieser Unterschied hat den ersten Lauf gekostet.
     private static var sampleEvolution: EvolutionDefinition {
         EvolutionDefinition(
             id: "evo_sprout_youngling",
@@ -89,7 +94,7 @@ extension ContentBundle {
                 EvolutionBranch(
                     to: "sprout_adult_bloom",
                     requires: .all([
-                        .fact(.level, .greaterOrEqual, .number(5)),
+                        .fact(.level, .greaterOrEqual, .number(3)),
                         .fact(.friendship, .greaterOrEqual, .number(20)),
                     ]),
                     hintKey: "evolution.hint.bloom",
