@@ -14,7 +14,7 @@
 | 6 | [Grundlegendes Gameplay](06-grundlegendes-gameplay.md) | fertig, CI grün |
 | 7 | [Creature System](07-creature-system.md) | fertig, CI grün |
 | 8 | [Save System](08-save-system.md) | fertig, CI grün |
-| 9 | [Cloud Sync](09-cloud-sync.md) | fertig |
+| 9 | [Cloud Sync](09-cloud-sync.md) | fertig, CI grün |
 | 10 | Polishing | offen |
 
 ## Erster Build: grün
@@ -28,7 +28,7 @@ und testet auf einem Linux-Runner, ohne Apple-Hardware.
 
 | Job | Umfang |
 |---|---|
-| `Spiellogik (Linux)` | `swift build`, 127 Tests, Content-Validierung, ADR-006-Regel |
+| `Spiellogik (Linux)` | `swift build`, 144 Tests, Content-Validierung, ADR-006-Regel |
 | `Darstellung (macOS)` | `swift build` und Tests der SwiftUI-Module |
 | `App (iOS)` | XcodeGen + `xcodebuild` |
 
@@ -60,7 +60,7 @@ Merge von PR #1 der Fall.
 
 | Prüfung | Wo | Läuft auf |
 |---|---|---|
-| 127 Tests der Spiellogik | `swift test` | Linux + macOS |
+| 144 Tests der Spiellogik | `swift test` | Linux + macOS |
 | Content-Validierung inkl. Design-Zusagen | `swift run ContentValidator ../../Content` | Linux + macOS |
 | Verbot von nichtdeterministischem Zufall (ADR-006) | CI-Schritt, `grep` | Linux |
 | SwiftUI-Module und Renderer-Tests | `swift build`, `swift test` | macOS |
