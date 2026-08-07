@@ -79,6 +79,7 @@ targets += [
         name: "PersistenceTests",
         dependencies: ["Persistence", "GameCore", "GameState", "CreatureSystem"]
     ),
+    .testTarget(name: "SyncCoreTests", dependencies: ["SyncCore", "GameCore"]),
 ]
 
 let package = Package(

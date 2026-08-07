@@ -5,7 +5,7 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 
 > *Arbeitstitel. Der Name taucht bewusst nirgends im Code auf.*
 
-> **Stand:** Phasen 1–8 abgeschlossen — die App ist spielbar: Die Zeit läuft in Echtzeit
+> **Stand:** Phasen 1–9 abgeschlossen — die App ist spielbar: Die Zeit läuft in Echtzeit
 > weiter, die Kreatur reagiert, man kann sie füttern, streicheln und schlafen legen.
 > Details im [Projektstand](docs/00-projektstand.md).
 
@@ -22,7 +22,8 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 | [Grundlegendes Gameplay](docs/06-grundlegendes-gameplay.md) | Phase 6 | ✅ v0.1 |
 | [Creature System](docs/07-creature-system.md) | Phase 7 | ✅ v0.1 |
 | [Save System](docs/08-save-system.md) | Phase 8 | ✅ v0.1 |
-| Cloud Sync | Phase 9 | ⏳ als Nächstes |
+| [Cloud Sync](docs/09-cloud-sync.md) | Phase 9 | ✅ v0.1 |
+| Polishing | Phase 10 | ⏳ als Nächstes |
 
 ## Meilensteinplan
 
@@ -47,7 +48,7 @@ Nach jeder Phase: prüfen · testen · dokumentieren · Verbesserungsvorschläge
 |---|---|
 | Plattform | iOS 18+, SwiftUI, Swift 6 |
 | Persistenz | Snapshot + Event-Journal (lokal, atomar, versioniert) |
-| Cloud | Schnittstelle vorbereitet, Backend-Entscheidung in Phase 9 |
+| Cloud | CloudKit (ADR-008) — Abgleich über ein Ereignis-Journal |
 | Wetter | simuliertes Spielwetter (deterministisch, ohne Standortzugriff) |
 | Grafik | programmatische Vektor-Darstellung, Assets später austauschbar |
 

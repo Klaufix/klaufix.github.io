@@ -1,6 +1,6 @@
 # Projektstand
 
-> Letzte Aktualisierung: nach Phase 8
+> Letzte Aktualisierung: nach Phase 9
 
 ## Phasen
 
@@ -14,7 +14,7 @@
 | 6 | [Grundlegendes Gameplay](06-grundlegendes-gameplay.md) | fertig, CI grün |
 | 7 | [Creature System](07-creature-system.md) | fertig, CI grün |
 | 8 | [Save System](08-save-system.md) | fertig, CI grün |
-| 9 | Cloud Sync | offen |
+| 9 | [Cloud Sync](09-cloud-sync.md) | fertig |
 | 10 | Polishing | offen |
 
 ## Erster Build: grün

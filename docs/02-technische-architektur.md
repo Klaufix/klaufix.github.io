@@ -417,6 +417,18 @@ Modul. Kosten: programmatische Kreaturen sehen zunächst schlichter aus als Illu
 **Konsequenz:** reproduzierbare Tests, kein Save-Scumming; erfordert Disziplin —
 nirgends `Int.random(in:)`, ein Lint-Check erzwingt das.
 
+### ADR-008 — CloudKit als Sync-Backend
+**Kontext:** In Phase 1 bewusst offen gelassen, in Phase 9 zu entscheiden.
+**Entscheidung:** CloudKit.
+**Ausschlaggebend:** Datenschutz bei Altersfreigabe 4+. Ein Spiel für Kinder, das
+Spielstände auf eigenen Servern hält, braucht Erklärung, Löschkonzept und jemanden, der
+dafür geradesteht. CloudKit legt die Daten ins iCloud-Konto des Nutzers — er besitzt sie.
+**Konsequenzen:** + kein Serverbetrieb, keine laufenden Kosten, Backup inklusive.
+− Bindung an Apple-Plattformen; für späteren Multiplayer mit Server-Autorität wird ein
+eigener Dienst dazukommen müssen. Das ist absehbar und kein Widerspruch: Geräte-Abgleich
+und Spielserver sind zwei Aufgaben.
+**Alternative:** Firebase — stärker für Multiplayer, teurer im Datenschutz-Aufwand.
+
 ### ADR-007 — Modulgrenzen als SwiftPM-Targets
 **Konsequenz:** Verstöße sind Compilerfehler statt Code-Review-Anmerkungen.
 Kosten: mehr Targets, etwas längere Inkrementell-Builds.
