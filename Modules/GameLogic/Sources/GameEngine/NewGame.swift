@@ -1,3 +1,4 @@
+import AlbumSystem
 import CreatureSystem
 import Foundation
 import GameContent
@@ -49,7 +50,13 @@ public enum NewGame {
             firstPlayedAt: now
         )
 
-        return GameState(player: player, creatures: [record])
+        // Die Startkreatur steht von der ersten Sekunde an im Album. Ein leeres
+        // Album beim ersten Start waere eine verpasste Gelegenheit: Der erste
+        // Eintrag ist das Versprechen, dass es mehr zu finden gibt.
+        var album = AlbumState()
+        album.apply(.discovered(species: speciesID, variant: .standard, at: now))
+
+        return GameState(player: player, creatures: [record], album: album)
     }
 
     // MARK: - Würfeln

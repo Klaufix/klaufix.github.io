@@ -64,7 +64,16 @@ targets += [
         name: "GameEngineTests",
         dependencies: [
             "GameEngine", "GameCore", "GameContent", "CreatureSystem", "ClimateSystem",
+            "BreedingSystem", "AlbumSystem",
         ]
+    ),
+    .testTarget(
+        name: "BreedingSystemTests",
+        dependencies: ["BreedingSystem", "GameCore", "GameContent"]
+    ),
+    .testTarget(
+        name: "AlbumSystemTests",
+        dependencies: ["AlbumSystem", "GameCore", "GameContent"]
     ),
 ]
 

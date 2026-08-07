@@ -1,3 +1,5 @@
+import AlbumSystem
+import BreedingSystem
 import CreatureSystem
 import Foundation
 import GameCore
@@ -13,20 +15,27 @@ import GameCore
 public struct GameState: Sendable, Hashable, Codable {
     /// Wird bei jeder Formatveraenderung erhoeht. Die Migrationskette in
     /// `Persistence` haengt daran.
-    public static let currentVersion = 1
+    /// Version 2 seit Phase 7: Album und Eier sind dazugekommen.
+    public static let currentVersion = 2
 
     public var saveVersion: Int
     public var player: PlayerState
     public var creatures: [CreatureRecord]
+    public var album: AlbumState
+    public var eggs: [PendingEgg]
 
     public init(
         saveVersion: Int = GameState.currentVersion,
         player: PlayerState,
-        creatures: [CreatureRecord] = []
+        creatures: [CreatureRecord] = [],
+        album: AlbumState = AlbumState(),
+        eggs: [PendingEgg] = []
     ) {
         self.saveVersion = saveVersion
         self.player = player
         self.creatures = creatures
+        self.album = album
+        self.eggs = eggs
     }
 
     public func creature(_ id: CreatureID) -> CreatureRecord? {
@@ -63,6 +72,12 @@ public struct PlayerState: Sendable, Hashable, Codable {
 
     public var firstPlayedAt: Date
 
+    /// Wie viele Bruten ohne besondere Form vergangen sind.
+    ///
+    /// Steht beim Spieler und nicht bei der Kreatur: Der Mitleidszähler soll
+    /// den Frust *des Spielers* begrenzen, nicht den einer bestimmten Kreatur.
+    public var shimmerPityCounter: Int
+
     public init(
         deviceID: DeviceID,
         displayName: String? = nil,
@@ -71,8 +86,10 @@ public struct PlayerState: Sendable, Hashable, Codable {
         cursor: TimeCursor,
         lamport: UInt64 = 0,
         unlocks: Set<FeatureID> = [],
-        firstPlayedAt: Date
+        firstPlayedAt: Date,
+        shimmerPityCounter: Int = 0
     ) {
+        self.shimmerPityCounter = shimmerPityCounter
         self.deviceID = deviceID
         self.displayName = displayName
         self.activeCreatureID = activeCreatureID

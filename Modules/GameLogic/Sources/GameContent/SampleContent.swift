@@ -14,7 +14,7 @@ extension ContentBundle {
     public static var sample: ContentBundle {
         ContentBundle(
             species: [sampleSprout, sampleBloom],
-            evolutions: [],
+            evolutions: [sampleEvolution],
             items: [sampleBerry, sampleTea],
             cosmetics: [],
             elementChart: sampleChart,
@@ -75,6 +75,27 @@ extension ContentBundle {
             ),
             habitats: ["meadow"],
             retired: nil
+        )
+    }
+
+    /// Ein friedlicher Entwicklungsweg: Stufe und Freundschaft genügen — kein
+    /// Kampf nötig (Design-Säule 4).
+    private static var sampleEvolution: EvolutionDefinition {
+        EvolutionDefinition(
+            id: "evo_sprout_youngling",
+            schemaVersion: ContentSchema.current,
+            from: "sprout_youngling",
+            branches: [
+                EvolutionBranch(
+                    to: "sprout_adult_bloom",
+                    requires: .all([
+                        .fact(.level, .greaterOrEqual, .number(5)),
+                        .fact(.friendship, .greaterOrEqual, .number(20)),
+                    ]),
+                    hintKey: "evolution.hint.bloom",
+                    peaceful: true
+                )
+            ]
         )
     }
 

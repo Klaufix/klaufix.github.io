@@ -55,6 +55,12 @@ public struct HomeView: View {
                 Text(model.moodDescription)
                     .font(Typography.body)
                     .foregroundStyle(palette.inkSoft)
+
+                // Die Stufe steht klein dabei: ein Zeichen gemeinsam
+                // verbrachter Zeit, kein Tor, hinter dem Inhalte warten.
+                Text("Stufe \(model.level)")
+                    .font(Typography.caption)
+                    .foregroundStyle(palette.inkSoft)
             }
             .padding(Layout.spacingSection)
         }

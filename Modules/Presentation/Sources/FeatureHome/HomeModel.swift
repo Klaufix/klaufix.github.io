@@ -1,3 +1,4 @@
+import AlbumSystem
 import CreatureRenderer
 import CreatureSystem
 import Foundation
@@ -5,6 +6,19 @@ import GameContent
 import GameCore
 import GameEngine
 import Observation
+
+/// Ein Album-Eintrag als reine Anzeigedaten.
+///
+/// Bewusst ohne Bindung an ein bestimmtes Feature-Modul: Die Album-Ansicht
+/// bekommt daraus ihre Elemente, ohne die Engine zu kennen.
+public struct AlbumSnapshot: Sendable, Hashable {
+    public let speciesID: String
+    public let nameKey: String
+    public let descriptor: AppearanceDescriptor
+    public let isDiscovered: Bool
+    public let variants: [String]
+    public let habitat: String
+}
 
 /// Der beobachtbare Wrapper um die Engine.
 ///
@@ -73,6 +87,53 @@ public final class HomeModel {
     }
 
     public var isAsleep: Bool { record?.state.isAsleep ?? false }
+
+    public var level: Int { record?.state.level ?? 1 }
+
+    public var levelProgress: Double {
+        guard let record else { return 0 }
+        return Growth.progress(of: record.state)
+    }
+
+    /// Alle Arten des Spiels, entdeckte zuerst — die Grundlage für das Album.
+    ///
+    /// Die Aufbereitung steckt hier und nicht im Album-Modul: Zwei Feature-Module
+    /// kennen einander nicht, und keines soll eine eigene Kopie des Zustands
+    /// halten.
+    public var albumItems: [AlbumSnapshot] {
+        engine.content.activeSpecies
+            .sorted { $0.id.rawValue < $1.id.rawValue }
+            .map { species in
+                let entry = engine.state.album.entry(for: species.id)
+                return AlbumSnapshot(
+                    speciesID: species.id.rawValue,
+                    nameKey: species.nameKey,
+                    descriptor: AppearanceResolver.descriptor(
+                        for: species.appearance,
+                        variant: .standard,
+                        stage: species.growthStage,
+                        cosmetics: [:]
+                    ),
+                    isDiscovered: entry != nil,
+                    variants: entry.map { Array($0.variants).sorted() } ?? [],
+                    habitat: AlbumSystem.teaser(for: species)
+                )
+            }
+    }
+
+    public var discoveredCount: Int { engine.state.album.discoveredCount }
+
+    public var nextMilestone: Int? {
+        AlbumSystem.nextMilestone(after: discoveredCount)
+    }
+
+    /// Was der aktiven Kreatur noch zu einer Entwicklung fehlt.
+    public var evolutionHintKeys: [String] {
+        guard let record else { return [] }
+        return engine.evolutionHints(for: record.id, now: Date())
+            .filter { !$0.isReachableNow }
+            .map(\.hintKey)
+    }
 
     /// Ein einzelner, freundlicher Vorschlag — nie eine Liste offener Aufgaben.
     public var suggestion: String? {

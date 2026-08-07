@@ -1,5 +1,6 @@
 import CreatureRenderer
 import DesignSystem
+import FeatureAlbum
 import FeatureHome
 import Foundation
 import GameContent
@@ -36,8 +37,52 @@ public struct RootView: View {
     }
 
     public var body: some View {
-        HomeView(model: model)
-            .systemPalette(colorScheme)
+        TabView {
+            HomeView(model: model)
+                .tabItem { Label("Zuhause", systemImage: "house.fill") }
+
+            AlbumTab(model: model)
+                .tabItem { Label("Album", systemImage: "book.fill") }
+        }
+        .systemPalette(colorScheme)
+    }
+}
+
+/// Übersetzt den Spielzustand in die Anzeigedaten des Album-Moduls.
+///
+/// Diese Übersetzung gehört hierher: `FeatureAlbum` soll die Engine nicht
+/// kennen, und `FeatureHome` nicht das Album.
+@MainActor
+private struct AlbumTab: View {
+    let model: HomeModel
+
+    var body: some View {
+        AlbumView(
+            items: model.albumItems.map { snapshot in
+                AlbumItem(
+                    id: snapshot.speciesID,
+                    title: title(for: snapshot),
+                    descriptor: snapshot.descriptor,
+                    isDiscovered: snapshot.isDiscovered,
+                    variants: snapshot.variants,
+                    detail: snapshot.isDiscovered
+                        ? "entdeckt"
+                        : "gesehen in: \(snapshot.habitat)",
+                    hints: snapshot.isDiscovered ? [] : []
+                )
+            },
+            discovered: model.discoveredCount,
+            nextMilestone: model.nextMilestone
+        )
+    }
+
+    /// Bis es String-Kataloge gibt, wird der Schlüssel lesbar gemacht statt
+    /// roh angezeigt.
+    private func title(for snapshot: AlbumSnapshot) -> String {
+        snapshot.speciesID
+            .split(separator: "_")
+            .map { $0.capitalized }
+            .joined(separator: " ")
     }
 }
 

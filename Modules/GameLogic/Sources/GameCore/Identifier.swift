@@ -49,6 +49,7 @@ public enum ElementTag: Sendable {}
 public enum WeatherTag: Sendable {}
 public enum EvolutionTag: Sendable {}
 public enum DeviceTag: Sendable {}
+public enum EggTag: Sendable {}
 public enum ItemTag: Sendable {}
 public enum CosmeticTag: Sendable {}
 public enum AbilityTag: Sendable {}
@@ -73,6 +74,7 @@ public typealias WeatherID = Identifier<WeatherTag>
 
 public typealias EvolutionID = Identifier<EvolutionTag>
 public typealias DeviceID = Identifier<DeviceTag>
+public typealias EggID = Identifier<EggTag>
 public typealias ItemID = Identifier<ItemTag>
 public typealias CosmeticID = Identifier<CosmeticTag>
 public typealias AbilityID = Identifier<AbilityTag>

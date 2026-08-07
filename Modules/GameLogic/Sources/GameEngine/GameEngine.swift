@@ -14,6 +14,9 @@ public struct ResolveSummary: Sendable, Hashable {
     public var weather: WeatherID
     public var timeOfDay: TimeOfDay
     public var outcomes: [CreatureID: SimulationOutcome]
+    /// Was sich jenseits der Beduerfnisse getan hat: Erfahrung, Entwicklungen,
+    /// geschluepfte Eier.
+    public var progress: ProgressSummary
 
     public init(
         absenceHours: Double,
@@ -21,7 +24,8 @@ public struct ResolveSummary: Sendable, Hashable {
         season: Season,
         weather: WeatherID,
         timeOfDay: TimeOfDay,
-        outcomes: [CreatureID: SimulationOutcome]
+        outcomes: [CreatureID: SimulationOutcome],
+        progress: ProgressSummary = ProgressSummary()
     ) {
         self.absenceHours = absenceHours
         self.isReunion = isReunion
@@ -29,6 +33,7 @@ public struct ResolveSummary: Sendable, Hashable {
         self.weather = weather
         self.timeOfDay = timeOfDay
         self.outcomes = outcomes
+        self.progress = progress
     }
 }
 
@@ -39,7 +44,10 @@ public struct ResolveSummary: Sendable, Hashable {
 /// darum — die Plattformgrenze zwingt zur sauberen Trennung, statt sie nur zu
 /// empfehlen.
 public struct GameEngine: Sendable {
-    public private(set) var state: GameState
+    /// Von aussen nur lesbar, im Modul schreibbar: Die Fortschreibung liegt in
+    /// mehreren Dateien (Zeit, Pflege, Entwicklung), `private(set)` waere auf
+    /// eine Datei beschraenkt.
+    public internal(set) var state: GameState
     public let content: ContentBundle
     public let climate: Climate
     public let hemisphere: Hemisphere
@@ -100,13 +108,26 @@ public struct GameEngine: Sendable {
 
         state.player.cursor.advance(to: now)
 
+        // Erfahrung zaehlt nur fuer Stunden, in denen es der Kreatur gut ging.
+        // Bewertet wird am Endzustand - eine Naeherung, aber eine, die in die
+        // richtige Richtung irrt: Wer gepflegt hat, bekommt sie, wer nicht,
+        // verliert nichts.
+        var healthyHours: [CreatureID: Int] = [:]
+        for record in state.creatures {
+            let hours = (outcomes[record.id]?.absenceHours) ?? 0
+            healthyHours[record.id] = Growth.healthyHours(hours, state: record.state)
+        }
+
+        let progress = advanceProgress(now: now, healthyHours: healthyHours)
+
         return ResolveSummary(
             absenceHours: absenceSeconds / 3600,
             isReunion: reunion,
             season: climate.season(at: now, hemisphere: hemisphere),
             weather: climate.weather(at: now, hemisphere: hemisphere),
             timeOfDay: TimeOfDay.from(hour: calendar.component(.hour, from: now)),
-            outcomes: outcomes
+            outcomes: outcomes,
+            progress: progress
         )
     }
 
@@ -133,6 +154,9 @@ public struct GameEngine: Sendable {
         for event in events {
             var updated = state.creatures[index]
             CareSystem.apply(event, to: &updated)
+            // Pflege bringt Erfahrung: Der taegliche Check-in soll spuerbar
+            // etwas bewirken, auch ohne Kaempfe.
+            Growth.award(Growth.experiencePerCareAction, to: &updated.state)
             state.creatures[index] = updated
         }
 

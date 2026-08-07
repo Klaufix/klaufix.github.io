@@ -108,6 +108,30 @@ public struct Friendship: Sendable, Hashable, Codable, Comparable {
     }
 }
 
+/// Verdeckte Anlagen, 0-5 je Wert.
+///
+/// Sie sind der Grund, warum zwei Exemplare derselben Art sich unterschiedlich
+/// anfuehlen, ohne dass der Spieler Zahlen vergleichen muss.
+///
+/// Liegt im Kern und nicht im CreatureSystem, weil mehrere Systeme sie brauchen:
+/// Die Zucht vererbt sie, der Kampf liest sie. Ein System darf ein anderes nicht
+/// importieren - gemeinsame Wertetypen gehoeren deshalb nach unten.
+public struct CreatureTalents: Sendable, Hashable, Codable {
+    public var vitality: Int
+    public var power: Int
+    public var resilience: Int
+    public var speed: Int
+
+    public init(vitality: Int = 0, power: Int = 0, resilience: Int = 0, speed: Int = 0) {
+        self.vitality = CreatureTalents.clamped(vitality)
+        self.power = CreatureTalents.clamped(power)
+        self.resilience = CreatureTalents.clamped(resilience)
+        self.speed = CreatureTalents.clamped(speed)
+    }
+
+    private static func clamped(_ raw: Int) -> Int { min(max(raw, 0), 5) }
+}
+
 /// Die fuenf Persoenlichkeitsachsen.
 ///
 /// Sie sind fuer den Spieler nie als Zahl sichtbar - er sieht das abgeleitete

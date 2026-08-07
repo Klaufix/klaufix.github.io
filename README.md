@@ -5,7 +5,7 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 
 > *Arbeitstitel. Der Name taucht bewusst nirgends im Code auf.*
 
-> **Stand:** Phasen 1–6 abgeschlossen — die App ist spielbar: Die Zeit läuft in Echtzeit
+> **Stand:** Phasen 1–7 abgeschlossen — die App ist spielbar: Die Zeit läuft in Echtzeit
 > weiter, die Kreatur reagiert, man kann sie füttern, streicheln und schlafen legen.
 > Details im [Projektstand](docs/00-projektstand.md).
 
@@ -20,7 +20,8 @@ und Entwickeln, kurze RPG-Ausflüge — ohne Bestrafung, ohne Grind.
 | [Datenmodelle](docs/04-datenmodelle.md) | Phase 4 | ✅ v0.1 |
 | [UI-Konzept](docs/05-ui-konzept.md) | Phase 5 | ✅ v0.1 |
 | [Grundlegendes Gameplay](docs/06-grundlegendes-gameplay.md) | Phase 6 | ✅ v0.1 |
-| Creature System | Phase 7 | ⏳ als Nächstes |
+| [Creature System](docs/07-creature-system.md) | Phase 7 | ✅ v0.1 |
+| Save System | Phase 8 | ⏳ als Nächstes |
 
 ## Meilensteinplan
 

@@ -2,23 +2,10 @@ import Foundation
 import GameContent
 import GameCore
 
-/// Verdeckte Anlagen, 0-5 je Wert.
-///
-/// Sie sind der Grund, warum zwei Exemplare derselben Art sich unterschiedlich
-/// anfuehlen, ohne dass der Spieler Zahlen vergleichen muss.
-public struct CreatureTalents: Sendable, Hashable, Codable {
-    public var vitality: Int
-    public var power: Int
-    public var resilience: Int
-    public var speed: Int
-
-    public init(vitality: Int = 0, power: Int = 0, resilience: Int = 0, speed: Int = 0) {
-        self.vitality = min(max(vitality, 0), 5)
-        self.power = min(max(power, 0), 5)
-        self.resilience = min(max(resilience, 0), 5)
-        self.speed = min(max(speed, 0), 5)
-    }
-}
+// `CreatureTalents` ist nach GameCore gewandert: Die Zucht vererbt die Anlagen
+// und der Kampf liest sie, und ein System darf ein anderes nicht importieren.
+// Gemeinsame Wertetypen gehoeren deshalb in den Kern. Ueber `import GameCore`
+// steht der Typ hier unveraendert zur Verfuegung.
 
 /// Die individuelle Ebene: was bei der Entstehung festgelegt wurde und sich
 /// nicht mehr aendert.
