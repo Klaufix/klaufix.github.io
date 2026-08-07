@@ -6,8 +6,13 @@ on:
   pull_request:
   workflow_dispatch:
 
+# Die Gruppe enthaelt bewusst auch den Commit: Mehrfache Laeufe desselben
+# Standes verdraengen einander weiterhin, aber ein haengengebliebener Lauf eines
+# aelteren Commits blockiert den naechsten nicht mehr. Genau das ist einmal
+# passiert - ein Lauf stand ueber eine Stunde in der Warteschlange und liess
+# sich nicht einmal abbrechen.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: true
 
 jobs:
